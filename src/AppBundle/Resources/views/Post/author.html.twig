@@ -1,0 +1,36 @@
+{% extends "@App/base.html.twig" %}
+
+{% block title %}Articles{% endblock %}
+
+{% block content %}
+    <div class="container">
+        
+        <div class="page-header">
+            <h2>
+                {{ author.username }} <small>({{ pagination.getTotalItemCount }})</small>
+            </h2>
+        </div>
+        
+        {% for post in pagination %}
+            <article>
+                <h2><a href="{{ path("post_show", {"id": post.id }) }}">{{ post.name }}</a></h2>
+                <p>
+                    <small>Catégorie : <a href="{{ path('lists_posts_category', {'categorySlug' : post.category.slug}) }}">{{ post.category }}</a> le {{ post.creationDate|date('m/d/Y') }}</small>
+                </p>
+                <p>
+                    {% set postShowLink = path("post_show", {"id": post.id }) %}
+                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|raw }}
+                </p>
+                <p class="text-right">
+                    <a href="{{ path("post_show", {"id": post.id }) }}" class="btn btn-primary">En savoir plus</a>
+                </p>
+            </article>
+        {% endfor %}
+        
+        <div class="text-center">
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

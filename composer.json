@@ -21,6 +21,7 @@
         "doctrine/orm": "^2.5",
         "friendsofsymfony/user-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
+        "knplabs/knp-paginator-bundle": "^2.6",
         "nojimage/twitter-text-php": "^1.1",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
@@ -28,6 +29,7 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
+        "twig/extensions": "^1.5",
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {

@@ -1,0 +1,48 @@
+{% extends "@App/base.html.twig" %}
+
+{% block title %}{{ post.name }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{ post.name }}</h1>
+                <p>
+                    <small>
+                        Catégorie : <a href="{{ path('lists_posts_category', {'categorySlug' : post.category.slug}) }}">{{ post.category }}</a>,
+                        par  <a href="{{ path("list_posts_author", {"idAuthor": post.author.id }) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('c') }}
+                    </small>
+                </p>
+                {{ post.content }}
+                
+                <h3>Commentaire{% if post.comments|length > 1 %}s{% endif %} - {{ post.comments|length }} </h3>
+                
+                {{ form(comment_form) }}
+                
+                {% for comment in post.comments %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ asset("bundles/app/img/gravatar.png") }}" width="100%">
+                        </div>
+                        <div class="col-md-10">
+                            
+                            <p><strong>{{ comment.username }}</strong>
+                                <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src= {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
+    <script src="{{ asset('bundles/app/js/format_date_ago.js') }}"></script>
+{% endblock %}

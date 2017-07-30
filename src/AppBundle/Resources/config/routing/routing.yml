@@ -7,5 +7,23 @@ homepage:
 post_show:
     path: /post/{id}
     defaults:
-        _controller: AppBundle:Home:show
+        _controller: AppBundle:Post:show
     methods: [GET, POST]
+
+lists_posts_category:
+    path: /category/{categorySlug}
+    defaults:
+        _controller: AppBundle:Post:category
+    methods: [GET]
+
+lists_posts:
+    path: /posts
+    defaults:
+        _controller: AppBundle:Post:listPosts
+    methods: [GET]
+
+list_posts_author:
+    path: /author/{idAuthor}
+    defaults:
+        _controller: AppBundle:Post:author
+    methods: [GET]

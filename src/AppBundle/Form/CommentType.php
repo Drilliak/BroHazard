@@ -15,9 +15,17 @@ class CommentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add("content", TextareaType::class,["label" => false, "attr" => ["placeholder" => "Ajouter un commentaire"]])
-            ->add("save", SubmitType::class, ["label" => "Ajouter un commentaire", "attr" => ["class" => "btn btn-primary"]]);
+        if ($options["isAuthenticated"]) {
+            $builder->add("content", TextareaType::class, ["label" => false, "attr" => ["placeholder" => "Ajouter un commentaire."]]);
+            $builder->add("save", SubmitType::class, ["label" => "Ajouter un commentaire", "attr" => ["class" => "btn btn-primary"]]);
+        } else {
+            $builder->add("content", TextareaType::class, [
+                "label" => false, "attr" => ["placeholder" => "Connectez-vous pour poster un commentaire.", "disabled" => true]
+            ]);
+            $builder->add("save", SubmitType::class, ["label" => "Ajouter un commentaire", "attr" => ["class" => "btn btn-primary", "disabled" => true]]);
+        }
+
+
     }
 
     /**
@@ -25,7 +33,10 @@ class CommentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(["data_class" => 'AppBundle\Entity\Comment']);
+        $resolver->setDefaults([
+            "data_class" => "AppBundle\Entity\Comment",
+            "isAuthenticated" => false
+        ]);
     }
 
     /**

@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         $twitter = $this->get('twitter.api');
 
-        $lastsTweets = $twitter->lastTweets(["Rolesafe"], 5);
+        $lastsTweets = $twitter->lastTweets(["Rolesafe", "Drilliak", "Nekaator"], 5);
 
         return $this->render('@App/Home/index.html.twig',
             [
@@ -32,38 +32,5 @@ class HomeController extends Controller
             ]);
     }
 
-    /**
-     * @param $id
-     *
-     * @return Response
-     */
-    public function showAction(Request $request, $id): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository('AppBundle:Post')->find($id);
 
-        if (is_null($post)) {
-            throw $this->createNotFoundException("La page n'existe pas.");
-        }
-
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()){
-            $comment->setCreationDate(new \DateTime());
-            $username = $this->get('security.token_storage')->getToken()->getUsername();
-            $comment->setUsername($username);
-            $comment->setPost($post);
-            if ($form->isValid()){
-                $em->persist($comment);
-                $em->flush();
-                return $this->redirectToRoute("post_show", ["id" => $post->getId()]);
-            }
-        }
-        return $this->render("AppBundle:Home:post.html.twig", [
-            "post" => $post,
-            "comment_form" => $form->createView(),
-        ]);
-    }
 }

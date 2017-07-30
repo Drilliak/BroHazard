@@ -50,7 +50,7 @@ class Twitter
             $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, null, $this->getAppAccessToken());
             $tweets = $twitter->get('statuses/user_timeline', [
                 'screen_name'     => $screenName,
-                'exclude_replies' => true,
+                'exclude_replies' => false,
                 'count'           => 50
             ]);
             $cache->set('twitter.last_tweets', $tweets, 60);

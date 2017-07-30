@@ -35,3 +35,7 @@ services:
             - "@router"
         tags:
             - { name: kernel.event_subscriber }
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }

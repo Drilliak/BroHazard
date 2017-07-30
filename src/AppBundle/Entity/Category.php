@@ -25,12 +25,17 @@ class Category
     /**
      * @var string
      * @Assert\NotBlank()
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
 
-    
     /**
      * Get id
      *
@@ -51,7 +56,8 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
-
+        $slug = strtolower(trim(preg_replace('/[\s-]+/', '-', preg_replace('/[^A-Za-z0-9-]+/', '-', preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $name))))), '-'));
+        $this->slug = $slug;
         return $this;
     }
 
@@ -63,6 +69,11 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function __toString()

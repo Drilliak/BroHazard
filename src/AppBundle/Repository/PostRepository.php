@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query;
+
 
 /**
  * ArticleRepository
@@ -24,5 +27,48 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         } catch (\Exception $e){
             return null;
         }
+    }
+
+    /**
+     * Retourne la requête permettant de sélectionner les articles en fonction
+     * de la catégorie
+     * @param string $slug Category slug
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByCategoryQuery(string $slug): Query{
+        return $this->createQueryBuilder('p')
+            ->where('c.slug = :slug')
+            ->join('p.category', 'c')
+            ->setParameter("slug", $slug)
+            ->orderBy('p.creationDate', 'DESC')
+            ->getQuery();
+
+    }
+
+    /**
+     * Retourne la requête permettant de récupérer tous les articles du site.
+     *
+     * @return Query
+     */
+    public function findAllQuery() : Query{
+        return $this->createQueryBuilder('p')
+            ->orderBy("p.creationDate", "DESC")
+            ->getQuery();
+    }
+
+    /**
+     * Retourne la requête permettant de récupérer les articles d'un utilisateur
+     * @param int $id Id de l'utilisateur
+     *
+     * @return Query
+     */
+    public function findByAuthorQuery(int $id): Query{
+        return $this->createQueryBuilder('p')
+            ->where("a.id = :id")
+            ->join("p.author", 'a')
+            ->setParameter("id", $id)
+            ->orderBy("p.creationDate", "DESC")
+            ->getQuery();
     }
 }

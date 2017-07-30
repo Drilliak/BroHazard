@@ -1,0 +1,11 @@
+homepage:
+    path: /
+    defaults:
+        _controller: AppBundle:Home:index
+    methods: [GET]
+
+post_show:
+    path: /post/{id}
+    defaults:
+        _controller: AppBundle:Home:show
+    methods: [GET, POST]

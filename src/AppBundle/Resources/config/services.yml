@@ -1,0 +1,6 @@
+services:
+    twitter.api:
+        class: AppBundle\Twitter
+        arguments:
+            - "%twitter_consumer_key%"
+            - "%twitter_consumer_secret%"

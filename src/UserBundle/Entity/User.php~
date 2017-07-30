@@ -1,0 +1,35 @@
+<?php
+
+namespace UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
+
+/**
+ * Class User
+ * @package AppBundle\Entity
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ */
+class User extends BaseUser
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Article", mappedBy="author")
+     */
+    private $articles;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+}

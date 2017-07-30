@@ -1,0 +1,41 @@
+{% extends "@App/base.html.twig" %}
+
+{% block title %}{{ post.name }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{ post.name }}</h1>
+                <p>
+                    <small>
+                        Catégorie : {{ post.category }}, par {{ post.author }} le {{ post.creationDate|date('c') }}
+                    </small>
+                </p>
+                {{ post.content }}
+    
+                <h3>Commentaire{% if post.comments|length > 1 %}s{% endif %} - {{ post.comments|length }} </h3>
+                
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {{ form(comment_form) }}
+                {% else %}
+                    <p>Connectez-vous pour pouvoir ajouter un commentaire.</p>
+                {% endif %}
+                
+                
+                {% for comment in post.comments %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ asset("bundles/app/img/gravatar.png") }}" width="100%">
+                        </div>
+                        <div class="col-md-10">
+                            <p><strong>{{ comment.username }}</strong> {{ comment.creationDate|date('Y-m-d\\TH:i:sP') }}</p>
+                            <p>{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends "@App/base.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for lastPost in lastPosts %}
+                    <article>
+                        <h2><a href="{{ path("post_show", {"id": lastPost.id }) }}">{{ lastPost.name }}</a></h2>
+                        <p>
+                            <small>Categorie : {{ lastPost.category }}, de {{ lastPost.author.username }} le {{ lastPost.creationDate|date('m/d/Y') }}</small>
+                        </p>
+                        <p>
+                            {{ lastPost.content }}
+                        </p>
+                        <p class="text-right">
+                            <a href="{{ path("post_show", {"id": lastPost.id }) }}" class="btn btn-primary">En savoir plus</a>
+                        </p>
+                    </article>
+                {% endfor %}
+            
+            </div>
+            <div class="col-md-4">
+                <ul>
+                    {% for lastTweet in lastTweets %}
+                        <li>
+                            {{ lastTweet.text }}
+                            <small>
+                                <time class="timeago" datetime="{{ lastTweet.created_at|date('c') }}"></time> par {{ lastTweet.user.name }}
+                            </small>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+        </div>
+    
+    
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src = {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
+    <script src = {{ asset('bundles/app/js/Home/index.js') }}></script>
+{% endblock %}

@@ -10,16 +10,17 @@
        
         {% for post in pagination %}
             <article>
-                <h2><a href="{{ path("post_show", {"id": post.id }) }}">{{ post.name }}</a></h2>
+                {% set postShowLink = path("post_show", {"slug": post.slug }) %}
+                <h2><a href="{{ postShowLink }}">{{ post.name }}</a></h2>
                 <p>
                     <small><a href="{{ path("list_posts_author", {"idAuthor": post.author.id}) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('m/d/Y') }}</small>
                 </p>
                 <p>
-                    {% set postShowLink = path("post_show", {"id": post.id }) %}
-                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|raw  }}
+                    
+                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify  }}
                 </p>
                 <p class="text-right">
-                    <a href="{{ path("post_show", {"id": post.id }) }}" class="btn btn-primary">En savoir plus</a>
+                    <a href="{{ postShowLink }}" class="btn btn-primary">En savoir plus</a>
                 </p>
             </article>
         {% endfor %}

@@ -79,6 +79,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $date = new \DateTime();
         $post->setCreationDate($date);
         $post->setLastUpdateDate($date);
+        $this->setReference("post", $post);
         $manager->persist($post);
 
         $post = new Post();

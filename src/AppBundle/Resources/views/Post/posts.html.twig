@@ -20,7 +20,7 @@
                 </p>
                 <p>
                     {% set postShowLink = path("post_show", {"id": post.id }) %}
-                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|raw }}
+                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
                 </p>
                 <p class="text-right">
                     <a href="{{ path("post_show", {"id": post.id }) }}" class="btn btn-primary">En savoir plus</a>

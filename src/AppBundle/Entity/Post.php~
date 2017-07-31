@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -31,9 +32,16 @@ class Post
     private $name;
 
     /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+    /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="posts")
      */
     private $author;
 
@@ -67,8 +75,18 @@ class Post
      * @var array
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post")
+     * @ORM\OrderBy({"creationDate" = "DESC"})
      */
     private $comments;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -106,30 +124,6 @@ class Post
     }
 
     /**
-     * Set stop
-     *
-     * @param string $stop
-     *
-     * @return Post
-     */
-    public function setStop($stop)
-    {
-        $this->stop = $stop;
-
-        return $this;
-    }
-
-    /**
-     * Get stop
-     *
-     * @return string
-     */
-    public function getStop()
-    {
-        return $this->stop;
-    }
-
-    /**
      * Set content
      *
      * @param string $content
@@ -153,29 +147,6 @@ class Post
         return $this->content;
     }
 
-    /**
-     * Set date
-     *
-     * @param \data $date
-     *
-     * @return Post
-     */
-    public function setDate(\data $date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \data
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     /**
      * Set author
@@ -200,13 +171,7 @@ class Post
     {
         return $this->author;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Set creationDate
@@ -266,7 +231,7 @@ class Post
     public function addComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
-
+        $comment->setPost($this);
         return $this;
     }
 
@@ -288,5 +253,29 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \AppBundle\Entity\Category $category
+     *
+     * @return Post
+     */
+    public function setCategory(\AppBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

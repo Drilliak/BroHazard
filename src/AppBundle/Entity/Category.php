@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Category
@@ -31,7 +33,7 @@ class Category
 
     /**
      * @var string
-     * @Assert\NotBlank()
+     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
@@ -56,8 +58,6 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
-        $slug = strtolower(trim(preg_replace('/[\s-]+/', '-', preg_replace('/[^A-Za-z0-9-]+/', '-', preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $name))))), '-'));
-        $this->slug = $slug;
         return $this;
     }
 
@@ -74,6 +74,20 @@ class Category
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Category
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function __toString()

@@ -9,14 +9,15 @@
             <div class="col-md-8">
                 {% for lastPost in lastPosts %}
                     <article>
-                        {% set postShowLink = path("post_show", {"id": lastPost.id }) %}
+                        {% set postShowLink = path("post_show", {"slug": lastPost.slug }) %}
                         <h2><a href="{{ postShowLink }}">{{ lastPost.name }}</a></h2>
                         <p>
                             <small>Categorie : <a href="{{ path('lists_posts_category', {'categorySlug' : lastPost.category.slug}) }}">{{ lastPost.category }}</a>,
-                                de <a href="{{ path("list_posts_author", {"idAuthor": lastPost.author.id }) }}">{{ lastPost.author.username }}</a> le {{ lastPost.creationDate|date('m/d/Y') }}</small>
+                                de <a href="{{ path("list_posts_author", {"idAuthor": lastPost.author.id }) }}">{{ lastPost.author.username }}</a>
+                                <time class="timeago" datetime="{{ lastPost.creationDate|date('c') }}"></time></small>
                         </p>
                         <p>
-                            {{ lastPost.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|raw }}
+                            {{ lastPost.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
                         </p>
                         <p class="text-right">
                             <a href="{{ postShowLink }}" class="btn btn-primary">En savoir plus</a>

@@ -9,33 +9,45 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <h1>{{ post.name }}</h1>
+            <div class="col-md-12">
+                <div class="page-header">
+                    <div class="btn-tollbar pull-right">
+                        {% if hasRight %}
+                        <div class="nav navbar-nav navbar-right">
+                            <a href="{{ path("edit_post", {"slug": post.slug }) }}" class="btn btn-primary">Modifier</a>
+                            <a href="#" class="btn btn-danger">Supprimer</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <h1>{{ post.name }}</h1>
+                </div>
                 <p>
                     <small>
                         Catégorie : <a href="{{ path('lists_posts_category', {'categorySlug' : post.category.slug}) }}">{{ post.category }}</a>,
-                        par  <a href="{{ path("list_posts_author", {"idAuthor": post.author.id }) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('c') }}
+                        par <a href="{{ path("list_posts_author", {"idAuthor": post.author.id }) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('c') }}
                     </small>
                 </p>
-                {{ post.content }}
+                {{ post.content|purify }}
                 
                 <h3>Commentaire{% if post.comments|length > 1 %}s{% endif %} - {{ post.comments|length }} </h3>
                 
                 {{ form(comment_form) }}
-                
-                {% for comment in post.comments %}
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img src="{{ asset("bundles/app/img/gravatar.png") }}" width="100%">
+                <div id="comments">
+                    {% for comment in post.comments %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="{{ asset("bundles/app/img/gravatar.png") }}" width="100%">
+                            </div>
+                            <div class="col-md-10">
+                                
+                                <p><strong>{{ comment.username }}</strong>
+                                    <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
+                                
+                                <p>{{ comment.content }}</p>
+                            </div>
                         </div>
-                        <div class="col-md-10">
-                            
-                            <p><strong>{{ comment.username }}</strong>
-                                <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
-                            <p>{{ comment.content }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

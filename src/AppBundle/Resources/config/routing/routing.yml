@@ -5,7 +5,7 @@ homepage:
     methods: [GET]
 
 post_show:
-    path: /post/{id}
+    path: /post/{slug}
     defaults:
         _controller: AppBundle:Post:show
     methods: [GET, POST]
@@ -27,3 +27,15 @@ list_posts_author:
     defaults:
         _controller: AppBundle:Post:author
     methods: [GET]
+
+new_post:
+    path: /new-post
+    defaults:
+        _controller: AppBundle:Post:newPost
+    methods: [GET, POST]
+
+edit_post:
+    path: /edit-post/{slug}
+    defaults:
+        _controller: AppBundle:Post:edit
+    methods: [GET, POST]

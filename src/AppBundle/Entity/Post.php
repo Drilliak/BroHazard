@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -30,6 +31,13 @@ class Post
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
     /**
      * @var User
      *
@@ -73,6 +81,15 @@ class Post
 
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
      * Get id
      *
      * @return int
@@ -107,30 +124,6 @@ class Post
     }
 
     /**
-     * Set stop
-     *
-     * @param string $stop
-     *
-     * @return Post
-     */
-    public function setStop($stop)
-    {
-        $this->stop = $stop;
-
-        return $this;
-    }
-
-    /**
-     * Get stop
-     *
-     * @return string
-     */
-    public function getStop()
-    {
-        return $this->stop;
-    }
-
-    /**
      * Set content
      *
      * @param string $content
@@ -154,29 +147,6 @@ class Post
         return $this->content;
     }
 
-    /**
-     * Set date
-     *
-     * @param \data $date
-     *
-     * @return Post
-     */
-    public function setDate(\data $date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \data
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     /**
      * Set author
@@ -201,13 +171,7 @@ class Post
     {
         return $this->author;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Set creationDate
@@ -313,5 +277,29 @@ class Post
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Post
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

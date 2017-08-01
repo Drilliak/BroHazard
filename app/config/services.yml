@@ -29,13 +29,16 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    user_bundle.registration_listener:
-        class: UserBundle\EventListener\RegistrationListener
-        arguments:
-            - "@router"
-        tags:
-            - { name: kernel.event_subscriber }
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
+    fos_user.listener.email_confirmation:
+        class: UserBundle\EventListener\EmailConfirmationListener
+        arguments:
+            - "@fos_user.mailer"
+            - "@fos_user.util.token_generator"
+            - "@router"
+            - "@session"
+        tags:
+            - { name: kernel.event_subscriber }

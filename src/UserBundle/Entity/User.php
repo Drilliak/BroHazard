@@ -4,6 +4,7 @@ namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
@@ -26,7 +27,15 @@ class User extends BaseUser
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="author")
      */
-    private $posts;
+    protected $posts;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * 
+     * @Assert\File(maxSize="2048k")
+     * @Assert\Image(mimeTypesMessage="Merci de choisir un format d'image valide")
+     */
+    protected $profilePictureFile;
 
     public function __construct()
     {
@@ -53,7 +62,7 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\Post $article
      */
-    public function removeArticle(\AppBundle\Entity\Post $post)
+    public function removePost(\AppBundle\Entity\Post $post)
     {
         $this->posts->removeElement($post);
     }
@@ -63,8 +72,32 @@ class User extends BaseUser
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getArticles()
+    public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set profilePictureFile
+     *
+     * @param string $profilePictureFile
+     *
+     * @return User
+     */
+    public function setProfilePictureFile($profilePictureFile)
+    {
+        $this->profilePictureFile = $profilePictureFile;
+
+        return $this;
+    }
+
+    /**
+     * Get profilePictureFile
+     *
+     * @return string
+     */
+    public function getProfilePictureFile()
+    {
+        return $this->profilePictureFile;
     }
 }

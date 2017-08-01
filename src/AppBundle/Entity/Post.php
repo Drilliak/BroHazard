@@ -74,7 +74,7 @@ class Post
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
      * @ORM\OrderBy({"creationDate" = "DESC"})
      */
     private $comments;

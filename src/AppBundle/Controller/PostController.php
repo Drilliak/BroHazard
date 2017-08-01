@@ -58,14 +58,14 @@ class PostController extends Controller
 
         // S'il s'agit d'un article dont l'utilisateur actuel est l'auteur ou si un admin accède à la page
         // on autorise les modifications
-        if ($currentUser === $post->getAuthor() || $isAdmin){
+        if ($currentUser === $post->getAuthor() || $isAdmin) {
             $hasRight = true;
         }
 
         return $this->render("AppBundle:Post:post.html.twig", [
             "post"         => $post,
             "comment_form" => $form->createView(),
-            "hasRight" =>$hasRight
+            "hasRight"     => $hasRight
         ]);
     }
 
@@ -160,7 +160,7 @@ class PostController extends Controller
     {
         // On rejette tout utilisateur n'ayant pas au moins le rang USER, ie tout utilisateur
         // non connecté
-        if (!$this->get("security.authorization_checker")->isGranted('ROLE_USER')){
+        if (!$this->get("security.authorization_checker")->isGranted('ROLE_USER')) {
             throw new AccessDeniedException("Veuillez vous connecter pour écrire un article");
         }
 
@@ -168,13 +168,13 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted()) {
 
             $post->setCreationDate(new \DateTime());
             $post->setLastUpdateDate(new \DateTime());
             $author = $this->get("security.token_storage")->getToken()->getUser();
             $post->setAuthor($author);
-            if ($form->isValid()){
+            if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
@@ -198,7 +198,8 @@ class PostController extends Controller
      *
      * @return Response
      */
-    public function editAction(Request $request, string $slug): Response{
+    public function editAction(Request $request, string $slug): Response
+    {
 
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository("AppBundle:Post")->findOneBy(["slug" => $slug]);
@@ -206,19 +207,18 @@ class PostController extends Controller
         /** @var User $currentUser */
         $currentUser = $this->get("security.token_storage")->getToken()->getUser();
 
-        if ($currentUser !== $author){
-            if (!$this->get("security.authorization_checker")->isGranted("ROLE_ADMIN")){
+        if ($currentUser !== $author) {
+            if (!$this->get("security.authorization_checker")->isGranted("ROLE_ADMIN")) {
                 throw new AccessDeniedException("Vous ne possédez pas les permissions suffisantes pour accéder à cette page.");
             }
-
         }
 
         $form = $this->createForm(PostType::class, $post, ["submit_button" => "Éditer"]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted()) {
             $post->setLastUpdateDate(new \DateTime());
-            if ($form->isValid()){
+            if ($form->isValid()) {
                 $em->flush();
 
                 $this->addFlash("success", "L'article a été modifié avec succès");
@@ -226,15 +226,36 @@ class PostController extends Controller
             }
         }
         return $this->render("AppBundle:Post:edit.html.twig", [
-            "post_form" => $form->createView()
+            "post_form" => $form->createView(),
+            "post" => $post
         ]);
     }
 
     /**
      * @return RedirectResponse
      */
-    public function deletePost(): RedirectResponse{
+    public function deleteAction(int $id): RedirectResponse
+    {
 
-       return $this->redirectToRoute("homepage");
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository("AppBundle:Post")->findOneBy(["id" => $id]);
+        $author = $post->getAuthor();
+        /** @var User $currentUser */
+        $currentUser = $this->get("security.token_storage")->getToken()->getUser();
+
+        // Si l'utilisateur n'est pas l'auteur de l'article ou n'est pas un admin, on le redirige
+        // vers la page principale
+        if ($currentUser !== $author) {
+            if (!$this->get("security.authorization_checker")->isGranted("ROLE_ADMIN")) {
+                return $this->redirectToRoute("homepage");
+            }
+        }
+        // Sinon on supprime l'article
+
+        $em->remove($post);
+        $em->flush();
+
+        $this->addFlash("success", "L'article a correctement été supprimé");
+        return $this->redirectToRoute("homepage");
     }
 }

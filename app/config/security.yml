@@ -23,6 +23,7 @@ security:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 login_path: /
+                use_referer: true
             logout: true
             anonymous: true
     access_control:

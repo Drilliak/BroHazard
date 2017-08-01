@@ -23,6 +23,7 @@ class HomeController extends Controller
 
         $twitter = $this->get('twitter.api');
 
+
         $lastsTweets = $twitter->lastTweets(["Drilliak"], 5);
 
         return $this->render('@App/Home/index.html.twig',

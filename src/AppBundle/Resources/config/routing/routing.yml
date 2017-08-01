@@ -39,3 +39,9 @@ edit_post:
     defaults:
         _controller: AppBundle:Post:edit
     methods: [GET, POST]
+
+delete_post:
+    path: /delete-post/{id}
+    defaults:
+        _controller: AppBundle:Post:delete
+    methods: [GET]

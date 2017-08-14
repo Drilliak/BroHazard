@@ -1,0 +1,5 @@
+admin_delete_category:
+    path: /admin/delete-category/{id}
+    defaults:
+        _controller: AppBundle:Category:delete
+    methods: [GET, POST]

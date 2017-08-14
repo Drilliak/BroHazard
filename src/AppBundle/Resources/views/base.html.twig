@@ -7,17 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-              integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('bundles/user/css/login.css') }}">
+        {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
+              {#integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
+        {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"#}
+              {#integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">#}
+        {#<link rel="stylesheet" href="{{ asset('bundles/user/css/login.css') }}">#}
+        <link rel="stylesheet" href="{{ asset('boostrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bootstrap-theme.min.css') }}">
     
     {% endblock %}
 </head>
 <body>
 {% block header %}
-    {% include "@App/navbar.html.twig" %}
+    {% include "@App/navbar/navbar.html.twig" %}
 {% endblock %}
 {% for type, flashes in app.session.flashbag.all %}
     <div class="container">
@@ -29,13 +31,24 @@
         {% endfor %}
     </div>
 {% endfor %}
+
 {% block content %} {% endblock %}
 {% block footer %}{% endblock %}
 {% block javascripts %}
-    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    {#<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="#}
+            {#crossorigin="anonymous"></script>#}
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+            {#crossorigin="anonymous"></script>#}
+    <script src="{{ asset('jquery.min.css') }}"></script>
+    <script src="{{ asset('boostrap.min.js') }}"></script>
+    <script>
+        setTimeout(function(){
+            $('.alert').slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 5000)
+       
+    </script>
 {% endblock %}
 </body>
 </html>

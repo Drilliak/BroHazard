@@ -237,6 +237,7 @@ class PostController extends Controller
     public function deleteAction(int $id): RedirectResponse
     {
 
+
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository("AppBundle:Post")->findOneBy(["id" => $id]);
         $author = $post->getAuthor();

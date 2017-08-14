@@ -30,17 +30,25 @@ class User extends BaseUser
     protected $posts;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * 
      * @Assert\File(maxSize="2048k")
      * @Assert\Image(mimeTypesMessage="Merci de choisir un format d'image valide")
      */
     protected $profilePictureFile;
 
+    /**
+     * @var Assert\DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
     public function __construct()
     {
         parent::__construct();
         $this->roles = ['ROLE_USER'];
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -75,5 +83,29 @@ class User extends BaseUser
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set profilePictureFile
+     *
+     * @param string $profilePictureFile
+     *
+     * @return User
+     */
+    public function setProfilePictureFile($profilePictureFile)
+    {
+        $this->profilePictureFile = $profilePictureFile;
+
+        return $this;
+    }
+
+    /**
+     * Get profilePictureFile
+     *
+     * @return string
+     */
+    public function getProfilePictureFile()
+    {
+        return $this->profilePictureFile;
     }
 }

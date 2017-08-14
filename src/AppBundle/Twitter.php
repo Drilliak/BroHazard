@@ -53,11 +53,11 @@ class Twitter
                 'exclude_replies' => false,
                 'count'           => 50
             ]);
-            $cache->set('twitter.last_tweets', $tweets, 60);
+            $cache->set('twitter.last_tweets', $tweets, 180);
         } else {
             $tweets = $cache->get('twitter.last_tweets');
         }
-        $autolink = \Twitter_Autolink::create();
+
         return array_splice($tweets, 0, $limit);
     }
 }

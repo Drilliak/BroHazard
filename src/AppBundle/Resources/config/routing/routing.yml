@@ -45,3 +45,36 @@ delete_post:
     defaults:
         _controller: AppBundle:Post:delete
     methods: [GET]
+
+admin_dashboard:
+    path: /admin/dashboard
+    defaults:
+        _controller: AppBundle:Admin:dashboard
+    methods: [GET]
+
+admin_dashboard_users:
+    path: /admin/dashboard/users
+    defaults:
+        _controller: AppBundle:Admin:users
+    methods: [GET]
+
+admin_user_delete:
+    path: /admin/delete-user/{id}
+    defaults:
+        _controller: AppBundle:Admin:deleteUser
+    methods: [DELETE]
+
+admin_user_edit_role:
+    path: /admin/edit-role/{id}
+    defaults:
+        _controller: AppBundle:Admin:editRole
+    methods: [POST]
+
+super_admin_search_user:
+    path: /admin/search-user
+    defaults:
+        _controller: AppBundle:Admin:searchUser
+    methods: [POST]
+
+category:
+    resource: "@AppBundle/Resources/config/routing/category_routing.yml"

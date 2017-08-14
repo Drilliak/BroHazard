@@ -1,0 +1,26 @@
+{% extends "@App/base.html.twig" %}
+
+
+{% block title %}Administration{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="#">Général</a></li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li><a href="{{ path('admin_dashboard_users') }}">Utilisateurs</a></li>
+                    {% endif %}
+                    <li><a href="#">Articles</a></li>
+                    <li><a href="">Catégories</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-md-10 main">
+                {% block data %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

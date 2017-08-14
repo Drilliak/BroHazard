@@ -42,3 +42,10 @@ services:
             - "@session"
         tags:
             - { name: kernel.event_subscriber }
+    user_bundle.registration_confirm:
+        class: UserBundle\EventListener\RegistrationListener
+        arguments:
+            - '@router'
+            - '@session'
+    user_bundle.login:
+        class: UserBundle\EventListener\LoginListener

@@ -7,6 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                
                 {% for lastPost in lastPosts %}
                     <article>
                         {% set postShowLink = path("post_show", {"slug": lastPost.slug }) %}
@@ -14,7 +15,8 @@
                         <p>
                             <small>Categorie : <a href="{{ path('lists_posts_category', {'categorySlug' : lastPost.category.slug}) }}">{{ lastPost.category }}</a>,
                                 de <a href="{{ path("list_posts_author", {"idAuthor": lastPost.author.id }) }}">{{ lastPost.author.username }}</a>
-                                <time class="timeago" datetime="{{ lastPost.creationDate|date('c') }}"></time></small>
+                                <time class="timeago" datetime="{{ lastPost.creationDate|date('c') }}"></time>
+                            </small>
                         </p>
                         <p>
                             {{ lastPost.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
@@ -27,17 +29,25 @@
             
             </div>
             <div class="col-md-4">
-                <ul>
-                    {% for lastTweet in lastTweets %}
-                        <li>
-                            {{ lastTweet.text }}
-                            <small>
-                                <time class="timeago" datetime="{{ lastTweet.created_at|date('c') }}"></time> par {{ lastTweet.user.name }}
-                            </small>
-                        </li>
-                    {% endfor %}
-                </ul>
                 
+                {% if lastTweets is not iterable %}
+                    <div class="alert alert-warning">
+                        {{ lastTweets }}
+                    </div>
+                {% else %}
+                    <ul>
+                        
+                        {% for lastTweet in lastTweets %}
+                            <li>
+                                {{ lastTweet.text }}
+                                <small>
+                                    <time class="timeago" datetime="{{ lastTweet.created_at|date('c') }}"></time>
+                                    par {{ lastTweet.user.name }}
+                                </small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
     
@@ -47,7 +57,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src = {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
-    <script src = {{ asset('bundles/app/js/format_date_ago.js') }}></script>
+    <script src= {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
+    <script src= {{ asset('bundles/app/js/format_date_ago.js') }}></script>
 {% endblock %}
 

@@ -37,10 +37,18 @@ class User extends BaseUser
      */
     protected $profilePictureFile;
 
+    /**
+     * @var Assert\DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
     public function __construct()
     {
         parent::__construct();
         $this->roles = ['ROLE_USER'];
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -99,5 +107,29 @@ class User extends BaseUser
     public function getProfilePictureFile()
     {
         return $this->profilePictureFile;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

@@ -78,3 +78,7 @@ super_admin_search_user:
 
 category:
     resource: "@AppBundle/Resources/config/routing/category_routing.yml"
+
+twitter:
+    resource: "@AppBundle/Resources/config/routing/twitter_routing.yml"
+    prefix: /admin

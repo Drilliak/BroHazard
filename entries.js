@@ -5,5 +5,5 @@ const PATH = {
 };
 
 module.exports = {
-    "dashboard-user": PATH.js + "/Admin/dashboard-user.js"
+    "Admin/dashboard-user": PATH.js + "/Admin/dashboard-user.js"
 };

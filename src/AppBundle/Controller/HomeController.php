@@ -20,9 +20,16 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $lastsPosts = $em->getRepository('AppBundle:Post')->findLastPosts(5);
 
+        $em =$this->getDoctrine()->getManager();
+        $repository = $em->getRepository("AppBundle:TwitterAccount");
+        $queryResults = $repository->findAllName();
+        $accounts = [];
+        foreach ($queryResults as $queryResult){
+            $accounts[] = $queryResult['username'];
+        }
         try {
             $twitter = $this->get('twitter.api');
-            $lastsTweets = $twitter->lastTweets(["Drilliak"], 5);
+            $lastsTweets = $twitter->lastTweets($accounts, 5);
         } catch (TwitterOAuthException $e) {
             $lastsTweets = 'Impossible de se connecter à Twitter, veuillez réessayer utlérieurement.';
         }

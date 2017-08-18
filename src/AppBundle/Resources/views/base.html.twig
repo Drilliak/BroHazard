@@ -33,7 +33,12 @@
 {% endfor %}
 
 {% block content %} {% endblock %}
-{% block footer %}{% endblock %}
+{% block footer %}
+    <div class="text-center">
+        <small><a href="https://github.com/Drilliak/Brohazard/issues">Signaler un bug, faire une suggestion.</a></small>
+    </div>
+
+{% endblock %}
 {% block javascripts %}
     {#<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="#}
             {#crossorigin="anonymous"></script>#}

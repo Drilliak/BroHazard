@@ -1,0 +1,16 @@
+admin_twitter:
+    path: /twitter-accounts
+    defaults:
+        _controller: AppBundle:Twitter:show
+    methods: [GET]
+
+admin_edit_twitter_account:
+    path: /edit-twitter-account/{id}
+    defaults:
+        _controller: AppBundle:Twitter:editAccount
+    methods: [POST]
+
+admin_add_twitter_account:
+    path: /add-twitter-account:
+    defaults:
+        _controller: AppBundle:Twitter:addTwitterAccount

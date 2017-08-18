@@ -39,13 +39,17 @@ let config = {
     entry: entry,
     watch: dev,
     output: {
-        path: path.resolve("./web/dist/"),
+        path: path.resolve("./web/dist"),
+        publicPath: '/dist/',
         filename: dev ? '[name].js' : '[name].[chunkhash].js'
     },
     resolve: {
-        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".css", ".scss"]
     },
     devtool: dev ? "cheap-module-eval-source-map" : false,
+    devServer: {
+      contentBase: path.resolve('./web')
+    },
     module: {
         rules: [
             {

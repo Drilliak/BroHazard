@@ -1,0 +1,34 @@
+{% extends "@App/Admin/dashboard.html.twig" %}
+
+{% block data %}
+    <h1 class="page-header">Catégories</h1>
+    {{ form_start(newCategoryForm, {'attr': {'class': 'form-inline'}}) }}
+    {{ form_end(newCategoryForm) }}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                {{ form_start(updateForms[category.id]) }}
+                <td>
+                    {{ form_widget(updateForms[category.id].name) }}
+                </td>
+                <td>
+                    {{ form_widget(updateForms[category.id].submit) }}
+                </td>
+                {{ form_end(updateForms[category.id]) }}
+            </tr>
+            
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(categories) }}
+    </div>
+{% endblock %}
+

@@ -1,5 +1,17 @@
-admin_delete_category:
-    path: /admin/delete-category/{id}
+admin_categories:
+    path: /admin/categories
     defaults:
-        _controller: AppBundle:Category:delete
-    methods: [GET, POST]
+        _controller: AppBundle:Category:show
+    methods: [GET]
+
+admin_update_category:
+    path: /admin/update-category/{id}
+    defaults:
+        _controller: AppBundle:Category:update
+    methods: [POST]
+
+admin_new_category:
+    path: /admin/create-category
+    defaults:
+        _controller: AppBundle:Category:create
+    methods: POST

@@ -1,0 +1,39 @@
+{% extends "@App/base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title "Profil" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Profil
+                <span class="pull-right">
+                    <span class="btn-group">
+                         <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                            Actions
+                            <span class="icon-cog icon-white"></span><span class="caret"></span>
+                         </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('fos_user_profile_edit') }}">Modidier</a></li>
+                                <li><a href="{{ path('fos_user_change_password') }}">Changer mot de passe</a></li>
+                                <li><a href="#">Supprimer</a></li>
+                            </ul>
+                    </span>
+
+                </span>
+            </h1>
+        </div>
+        <div class="col-sm-6 col-sm-offset-3">
+            <ul class="list-group">
+                <li class="list-group-item text-right"><span class="pull-left"><strong
+                                class="">Nom d'utilisateur</strong></span> {{ user.username }}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong
+                                class="">Email</strong></span> {{ user.email }}</li>
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

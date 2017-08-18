@@ -71,37 +71,6 @@ class AdminController extends Controller
 
     }
 
-    /**
-     * Page du panneau de configuration propre à la gestion des catégories
-     *
-     */
-    public function categoryAction(Request $request){
-        if (!$this->isGranted('ROLE_ADMIN')){
-            return $this->redirectToRoute('homepage');
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('AppBundle:Category');
-        $paginator = $this->get('knp_paginator');
-
-        $query = $repository->createQueryBuilder('c')
-            ->orderBy('c.name', desc)
-            ->getQuery();
-
-        $categories = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            30
-        );
-
-        $deleteForms = [];
-
-        /** @var Category $category */
-        foreach ($categories as $category){
-
-        }
-
-    }
 
     /**
      * @param Request $request
@@ -163,17 +132,6 @@ class AdminController extends Controller
         return $this->json('The form was not submitted.');
     }
 
-    /**
-     * @param Category $category
-     *
-     * @return FormInterface
-     */
-    private function createCategoryDeleteForm(Category $category): FormInterface{
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl())
-            ->setMethod('DELETE')
-            ->getForm();
-    }
 
     /**
      * @param Request $request

@@ -1,6 +1,10 @@
 services:
     twitter.api:
-        class: AppBundle\Twitter
+        class: AppBundle\Twitter\Twitter
         arguments:
             - "%twitter_consumer_key%"
             - "%twitter_consumer_secret%"
+    twitter.autolink_extension:
+        class: AppBundle\Twitter\AutolinkExtension
+        tags:
+            - { name: twig.extension }

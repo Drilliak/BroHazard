@@ -3,11 +3,16 @@
 {% block title %}Accueil{% endblock %}
 
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                
+                <div class="page-header">
+                    <h2>Les derniers articles</h2>
+                </div>
                 {% for lastPost in lastPosts %}
                     <article>
                         {% set postShowLink = path("post_show", {"slug": lastPost.slug }) %}
@@ -29,20 +34,22 @@
             
             </div>
             <div class="col-md-4">
-                
+                <div class="page-header">
+                    <h2>Les derniers tweets</h2>
+                </div>
                 {% if lastTweets is not iterable %}
                     <div class="alert alert-warning">
                         {{ lastTweets }}
                     </div>
                 {% else %}
-                    <ul>
+                    <ul class="list-group">
                         
                         {% for lastTweet in lastTweets %}
-                            <li>
-                                {{ lastTweet.text }}
+                            <li class="list-group-item">
+                                {{ autolink(lastTweet.text)|purify }}
                                 <small>
                                     <time class="timeago" datetime="{{ lastTweet.created_at|date('c') }}"></time>
-                                    par {{ lastTweet.user.name }}
+                                    par <a href="https://twitter.com/{{ lastTweet.user.name }}">{{ lastTweet.user.name }}</a>
                                 </small>
                             </li>
                         {% endfor %}
@@ -50,7 +57,7 @@
                 {% endif %}
             </div>
         </div>
-    
+
     
     </div>
 {% endblock %}

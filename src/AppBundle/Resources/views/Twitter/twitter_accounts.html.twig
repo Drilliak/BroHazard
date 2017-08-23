@@ -1,36 +1,33 @@
-{% extends "@App/base.html.twig" %}
+{% extends "@App/Admin/dashboard.html.twig" %}
 
 {% block title "Gestion des comptes twitter" %}
 
-{% block content %}
-    <div class="container">
+{% block data %}
 
-        <div class="page-header">
-            <h1>Gestion des comptes Twitter</h1>
-        </div>
-        {{ form_start(addAccount, {'attr': {'class': 'form-inline'} }) }}
-
-        {{ form_end(addAccount) }}
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for formAccount in formsAccounts %}
-                {{ form_start(formAccount) }}
-                <tr>
-                    <td>{{ form_widget(formAccount.name) }}</td>
-                    <td>{{ form_widget(formAccount.submit) }}</td>
-                </tr>
-                {{ form_end(formAccount) }}
-            {% endfor %}
-
-            </tbody>
-        </table>
+    <div class="page-header">
+        <h1>Gestion des comptes Twitter</h1>
     </div>
+    {{ form_start(addAccount, {'attr': {'class': 'form-inline'} }) }}
 
+    {{ form_end(addAccount) }}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for formAccount in formsAccounts %}
+            {{ form_start(formAccount) }}
+            <tr>
+                <td>{{ form_widget(formAccount.name) }}</td>
+                <td>{{ form_widget(formAccount.submit) }}</td>
+            </tr>
+            {{ form_end(formAccount) }}
+        {% endfor %}
+
+        </tbody>
+    </table>
 {% endblock %}

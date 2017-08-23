@@ -10,10 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Article
  *
+ * @ORM\Entity
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  */
-class Post
+class Post extends AbstractVote
 {
     /**
      * @var int
@@ -31,6 +32,15 @@ class Post
      */
     private $name;
 
+    /**
+     * @var
+     * @ORM\Column(name="summary", type="text", nullable=true)
+     * @Assert\Length(
+     *     max = 500,
+     *     maxMessage="Votre résumé est trop long, veuillez le réduire à 500 caractères."
+     * )
+     */
+    private $summary;
     /**
      * @var string
      *
@@ -301,5 +311,24 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @param $summary
+     * @return $this
+     */
+    public function setSummary(string $summary)
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSummary(): ?string
+    {
+        return $this->summary;
     }
 }

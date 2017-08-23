@@ -1,0 +1,11 @@
+vote_like:
+    path: /like
+    defaults:
+        _controller: AppBundle:Vote:like
+    methods: [POST]
+
+vote_dislike:
+    path: /dislike
+    defaults:
+        _controller: AppBundle:Vote:dislike
+    methods: [POST]

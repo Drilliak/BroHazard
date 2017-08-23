@@ -2,10 +2,15 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppEvents;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Vote;
+use AppBundle\Event\NewPostEvent;
 use AppBundle\Form\CommentType;
+use AppBundle\Form\LikeType;
 use AppBundle\Form\PostType;
+use AppBundle\Form\VoteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,6 +38,7 @@ class PostController extends Controller
             throw $this->createNotFoundException("La page n'existe pas.");
         }
 
+
         $isAuthenticated = $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED');
 
         $comment = new Comment();
@@ -47,7 +53,7 @@ class PostController extends Controller
             if ($form->isValid()) {
                 $em->persist($comment);
                 $em->flush();
-                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug()]);
+                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug(), "categorySlug" => $post->getCategory()->getSlug()]);
             }
         }
 
@@ -62,10 +68,40 @@ class PostController extends Controller
             $hasRight = true;
         }
 
+        $vote = new Vote();
+        $likeForm = $this->get('form.factory')->create(VoteType::class, $vote, [
+            'type'  => "like",
+            "path"  => $this->generateUrl("vote_like", ['ref' => "post", "ref_id" => $post->getId()]),
+            "value" => $post->getLike()
+        ])->createView();
+
+        $dislikeForm = $this->get('form.factory')->create(VoteType::class, $vote, [
+            'type'  => "dislike",
+            "path"  => $this->generateUrl("vote_dislike", ['ref' => "post", "ref_id" => $post->getId()]),
+            "value" => $post->getDislike()
+        ])->createView();
+
+
+        $voteRepository = $em->getRepository('AppBundle:Vote');
+        $vote = $voteRepository
+            ->findOneBy([
+                'ref'   => 'post',
+                'refId' => $post->getId(),
+                'user'  => $this->getUser()
+            ]);
+        $class = VoteController::getClass($vote);
+
+        $width = ($post->getLike() + $post->getDislike() == 0) ? 100 : round(($post->getLike() / ($post->getLike() + $post->getDislike())) *100);
+
+        $voteRepository->updateCount('post', $post->getId());
         return $this->render("AppBundle:Post:post.html.twig", [
             "post"         => $post,
             "comment_form" => $form->createView(),
-            "hasRight"     => $hasRight
+            "hasRight"     => $hasRight,
+            "likeForm"     => $likeForm,
+            "dislikeForm"  => $dislikeForm,
+            "class"        => $class,
+            "width"        => $width
         ]);
     }
 
@@ -100,7 +136,7 @@ class PostController extends Controller
      *
      * @return Response
      */
-    public function listPostsAction(Request $request): Response
+    public function postsAction(Request $request): Response
     {
         $em = $this->getDoctrine();
         $query = $em->getRepository("AppBundle:Post")
@@ -175,12 +211,16 @@ class PostController extends Controller
             $author = $this->get("security.token_storage")->getToken()->getUser();
             $post->setAuthor($author);
             if ($form->isValid()) {
+
+                $event = new NewPostEvent($post);
+                $this->get('event_dispatcher')->dispatch(AppEvents::NEW_POST);
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
 
                 $this->addFlash("success", "Votre article a bien été créé");
-                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug()]);
+                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug(), "categorySlug" => $post->getCategory()->getSlug()]);
             }
         }
 
@@ -194,7 +234,7 @@ class PostController extends Controller
      * Permet de modifier un post (s'il s'agit de l'auteur ou d'un administrateur)
      *
      * @param Request $request
-     * @param int     $idPost
+     * @param int $idPost
      *
      * @return Response
      */
@@ -222,12 +262,12 @@ class PostController extends Controller
                 $em->flush();
 
                 $this->addFlash("success", "L'article a été modifié avec succès");
-                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug()]);
+                return $this->redirectToRoute("post_show", ["slug" => $post->getSlug(), "categorySlug" => $post->getCategory()->getSlug()]);
             }
         }
         return $this->render("AppBundle:Post:edit.html.twig", [
             "post_form" => $form->createView(),
-            "post" => $post
+            "post"      => $post
         ]);
     }
 
@@ -259,4 +299,6 @@ class PostController extends Controller
         $this->addFlash("success", "L'article a correctement été supprimé");
         return $this->redirectToRoute("homepage");
     }
+
+
 }

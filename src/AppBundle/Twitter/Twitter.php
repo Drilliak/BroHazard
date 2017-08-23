@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Vincent
- * Date: 29/07/2017
- * Time: 11:16
- */
 
 namespace AppBundle\Twitter;
-
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -25,14 +18,30 @@ class Twitter
      */
     private $consumerSecret;
 
+    /**
+     * @var string
+     */
+    private $accessToken;
+
+    /**
+     * @var string
+     */
+    private $accessTokenSecret;
+
+    /**
+     * @var string
+     */
+    private $environment;
 
 
 
-    public function __construct(string $consumerKey, string $consumerSecret)
+    public function __construct(string $consumerKey, string $consumerSecret, string $accessToken, string $accessTokenSecret, string $environment)
     {
-
         $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
+        $this->accessToken = $accessToken;
+        $this->accessTokenSecret = $accessTokenSecret;
+        $this->environment = $environment;
     }
 
     /**
@@ -50,9 +59,9 @@ class Twitter
         $cache = new FilesystemCache();
         if (!$cache->has('twitter.last_tweets')) {
             $tweets = [];
-            foreach ($screenNames as $screenName){
+            foreach ($screenNames as $screenName) {
                 $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, null, $this->getAppAccessToken());
-                $tweets = array_merge($tweets,$twitter->get('statuses/user_timeline', [
+                $tweets = array_merge($tweets, $twitter->get('statuses/user_timeline', [
                     'screen_name'     => $screenName,
                     'exclude_replies' => false,
                     'count'           => 5
@@ -65,6 +74,25 @@ class Twitter
         }
 
         return array_splice($tweets, 0, $limit);
+    }
+
+    /**
+     * Permet de tweet un contenu.
+     *
+     * @param string $status Contenu du tweet. Doit être inférieur à 140 caractères.
+     * @return array|object
+     */
+    public function tweet(string $status)
+    {
+        $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+        return $twitter->post('statuses/update', [
+            'status' => $status
+        ]);
+    }
+
+    public function destroy(string $id){
+        $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+        return $twitter->post('statuses/destroy/' . $id);
     }
 
     private function sort($tweet1, $tweet2)

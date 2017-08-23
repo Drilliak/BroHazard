@@ -1,0 +1,46 @@
+lists_posts:
+    path: /
+    defaults:
+        _controller: AppBundle:Post:posts
+    methods: [GET]
+
+new_post:
+    path: /new-post
+    defaults:
+        _controller: AppBundle:Post:newPost
+    methods: [GET, POST]
+
+list_posts_author:
+    path: /author/{idAuthor}
+    defaults:
+        _controller: AppBundle:Post:author
+    methods: [GET]
+
+
+lists_posts_category:
+    path: /{categorySlug}
+    defaults:
+        _controller: AppBundle:Post:category
+    methods: [GET]
+
+edit_post:
+    path: /edition/{slug}
+    defaults:
+        _controller: AppBundle:Post:edit
+    methods: [GET, POST]
+
+delete_post:
+    path: /delete/{id}
+    defaults:
+        _controller: AppBundle:Post:delete
+    methods: [GET]
+
+post_show:
+    path: /{categorySlug}/{slug}
+    defaults:
+        _controller: AppBundle:Post:show
+    methods: [GET, POST]
+
+
+
+

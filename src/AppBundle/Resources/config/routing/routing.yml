@@ -4,47 +4,12 @@ homepage:
         _controller: AppBundle:Home:index
     methods: [GET]
 
-post_show:
-    path: /post/{slug}
+google_webmaster_tool:
+    path: /googlefa873c3cd12e50af.html
     defaults:
-        _controller: AppBundle:Post:show
-    methods: [GET, POST]
-
-lists_posts_category:
-    path: /category/{categorySlug}
-    defaults:
-        _controller: AppBundle:Post:category
+        _controller: AppBundle:Home:googleWebMasterTools
     methods: [GET]
 
-lists_posts:
-    path: /posts
-    defaults:
-        _controller: AppBundle:Post:listPosts
-    methods: [GET]
-
-list_posts_author:
-    path: /author/{idAuthor}
-    defaults:
-        _controller: AppBundle:Post:author
-    methods: [GET]
-
-new_post:
-    path: /new-post
-    defaults:
-        _controller: AppBundle:Post:newPost
-    methods: [GET, POST]
-
-edit_post:
-    path: /edit-post/{slug}
-    defaults:
-        _controller: AppBundle:Post:edit
-    methods: [GET, POST]
-
-delete_post:
-    path: /delete-post/{id}
-    defaults:
-        _controller: AppBundle:Post:delete
-    methods: [GET]
 
 admin_dashboard:
     path: /admin/dashboard
@@ -76,9 +41,17 @@ super_admin_search_user:
         _controller: AppBundle:Admin:searchUser
     methods: [POST]
 
+posts:
+    resource : "@AppBundle/Resources/config/routing/posts_routing.yml"
+    prefix: /posts
+
 category:
     resource: "@AppBundle/Resources/config/routing/category_routing.yml"
 
 twitter:
     resource: "@AppBundle/Resources/config/routing/twitter_routing.yml"
     prefix: /admin
+
+like:
+    resource: "@AppBundle/Resources/config/routing/like_routing.yml"
+    prefix: /ajax

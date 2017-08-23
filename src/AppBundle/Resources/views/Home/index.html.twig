@@ -1,6 +1,6 @@
 {% extends "@App/base.html.twig" %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Brohazard | Brohazard.fr{% endblock %}
 
 
 {% block stylesheets %}
@@ -15,7 +15,7 @@
                 </div>
                 {% for lastPost in lastPosts %}
                     <article>
-                        {% set postShowLink = path("post_show", {"slug": lastPost.slug }) %}
+                        {% set postShowLink = path("post_show", {"slug": lastPost.slug, "categorySlug": lastPost.category.slug}) %}
                         <h2><a href="{{ postShowLink }}">{{ lastPost.name }}</a></h2>
                         <p>
                             <small>Categorie : <a href="{{ path('lists_posts_category', {'categorySlug' : lastPost.category.slug}) }}">{{ lastPost.category }}</a>,
@@ -24,7 +24,7 @@
                             </small>
                         </p>
                         <p>
-                            {{ lastPost.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
+                            {{ lastPost.summary|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
                         </p>
                         <p class="text-right">
                             <a href="{{ postShowLink }}" class="btn btn-primary">En savoir plus</a>
@@ -43,7 +43,6 @@
                     </div>
                 {% else %}
                     <ul class="list-group">
-                        
                         {% for lastTweet in lastTweets %}
                             <li class="list-group-item">
                                 {{ autolink(lastTweet.text)|purify }}
@@ -64,7 +63,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src= {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
-    <script src= {{ asset('bundles/app/js/format_date_ago.js') }}></script>
+    <script src="{{ asset('jquery.timeago.js') }}"></script>
+    <script src="{{ asset('format_date_ago.js') }}"></script>
 {% endblock %}
 

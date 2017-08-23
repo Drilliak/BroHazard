@@ -42,5 +42,9 @@ class HomeController extends Controller
             ]);
     }
 
+    public function googleWebMasterToolsAction() : Response {
+        return $this->render("@App/Home/google-webmaster-tool.html.twig");
+    }
+
 
 }

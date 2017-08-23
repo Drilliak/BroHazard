@@ -1,26 +1,53 @@
 {% extends "@App/base.html.twig" %}
 
+
 {% block title %}{{ post.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('dist/Post/vote-bar.css') }}">
 {% endblock %}
 
+{% form_theme likeForm _self %}
+
+{% block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' btn')|trim}) %}
+    {% if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+            '%name%': name,
+            '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    {% if icon|default %}
+        {% set iconHtml = '<i class="glyphicon ' ~ icon ~ '"></i> ' %}
+    {% else %}
+        {% set iconHtml = '' %}
+    {% endif %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ iconHtml|raw }}<span
+                id="{{ idSpan }}">{{ label|trans({}, translation_domain) }}</span></button>
+{%- endblock button_widget %}
+
 {% block content %}
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">Confirmation de la suppression</h4>
                 </div>
-                
+
                 <div class="modal-body">
                     <p>Vous allez supprimez l'article, cette action sera irréversible.</p>
                     <p>Voulez-vous continuer ?</p>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                     <a class="btn btn-danger btn-ok">Supprimer</a>
@@ -28,31 +55,70 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
                     <div class="btn-tollbar pull-right">
                         {% if hasRight %}
-                        <div class="nav navbar-nav navbar-right">
-                            <a href="{{ path("edit_post", {"slug": post.slug }) }}" class="btn btn-primary">Modifier</a>
-                            <a href="#" data-href="{{ path("delete_post", {"id" : post.id}) }}" class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete">Supprimer</a>
-                        </div>
+                            <div class="nav navbar-nav navbar-right">
+                                <a href="{{ path("edit_post", {"slug": post.slug }) }}"
+                                   class="btn btn-primary">Modifier</a>
+                                <a href="#" data-href="{{ path("delete_post", {"id" : post.id}) }}"
+                                   class="btn btn-danger" data-toggle="modal"
+                                   data-target="#confirm-delete">Supprimer</a>
+                            </div>
                         {% endif %}
                     </div>
                     <h1>{{ post.name }}</h1>
                 </div>
                 <p>
                     <small>
-                        Catégorie : <a href="{{ path('lists_posts_category', {'categorySlug' : post.category.slug}) }}">{{ post.category }}</a>,
-                        par <a href="{{ path("list_posts_author", {"idAuthor": post.author.id }) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('c') }}
+                        Catégorie : <a
+                                href="{{ path('lists_posts_category', {'categorySlug' : post.category.slug}) }}">{{ post.category }}</a>,
+                        par
+                        <a href="{{ path("list_posts_author", {"idAuthor": post.author.id }) }}">{{ post.author.username }}</a>
+                        le {{ post.creationDate|date('d.m.Y à H:i') }}
                     </small>
                 </p>
                 {{ post.content|purify }}
-                
+
+
+                <div class="row">
+                    <div id="vote" class="vote {{ class }}">
+                        <div class="vote-bar">
+                            <div class="vote-progress" style="width: {{ width }}%"></div>
+                        </div>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <div class="vote-btns">
+                                {{ form_start(likeForm) }}
+                                {{ form_widget(likeForm.submit, {
+                                    'icon': 'glyphicon-thumbs-up',
+                                    'idSpan': 'like-count'
+                                }) }}
+                                {{ form_end(likeForm) }}
+
+                                {{ form_start(dislikeForm) }}
+                                {{ form_widget(dislikeForm.submit, {
+                                    'icon': 'glyphicon-thumbs-down',
+                                    'idSpan': 'dislike-count'
+                                }) }}
+                                {{ form_end(dislikeForm) }}
+                            </div>
+                        {% else %}
+                            <div class="vote-btns">
+                                <button disabled class="vote-btn"><i class="glyphicon glyphicon-thumbs-up"></i> {{ post.getLike() }}</button>
+                                <button disabled class="vote-btn"><i class="glyphicon glyphicon-thumbs-down"></i> {{ post.getDislike() }}</button>
+
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+
                 <h3>Commentaire{% if post.comments|length > 1 %}s{% endif %} - {{ post.comments|length }} </h3>
-                
+
                 {{ form(comment_form) }}
                 <div id="comments">
                     {% for comment in post.comments %}
@@ -61,10 +127,10 @@
                                 <img src="{{ asset("gravatar.png") }}" width="100%">
                             </div>
                             <div class="col-md-10">
-                                
+
                                 <p><strong>{{ comment.username }}</strong>
                                     <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
-                                
+
                                 <p>{{ comment.content }}</p>
                             </div>
                         </div>
@@ -79,8 +145,10 @@
     {{ parent() }}
     <script src= {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
     <script src="{{ asset('bundles/app/js/format_date_ago.js') }}"></script>
+    <script src="{{ asset('dist/Post/post.js') }}"></script>
+    <script src="{{ asset('dist/Post/vote-bar.js') }}"></script>
     <script>
-        $('#confirm-delete').on('show.bs.modal', function(e) {
+        $('#confirm-delete').on('show.bs.modal', function (e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 
             $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');

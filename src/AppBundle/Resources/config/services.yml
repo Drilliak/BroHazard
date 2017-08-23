@@ -4,6 +4,10 @@ services:
         arguments:
             - "%twitter_consumer_key%"
             - "%twitter_consumer_secret%"
+            - "%twitter_brohazard_access_token%"
+            - "%twitter_brohazard_access_token_secret%"
+            - "%kernel.environment%"
+
     twitter.autolink_extension:
         class: AppBundle\Twitter\AutolinkExtension
         tags:

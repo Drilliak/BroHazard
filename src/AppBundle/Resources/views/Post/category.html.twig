@@ -1,6 +1,6 @@
 {% extends "@App/base.html.twig" %}
 
-{% block title %}Articles - {{ category.name }} {% endblock %}
+{% block title %}Articles de la catégorie {{ category.name }} {% endblock %}
 
 {% block content %}
     <div class="container">
@@ -10,14 +10,13 @@
        
         {% for post in pagination %}
             <article>
-                {% set postShowLink = path("post_show", {"slug": post.slug }) %}
+                {% set postShowLink = path("post_show", {"slug": post.slug, "categorySlug": post.category.slug }) %}
                 <h2><a href="{{ postShowLink }}">{{ post.name }}</a></h2>
                 <p>
                     <small><a href="{{ path("list_posts_author", {"idAuthor": post.author.id}) }}">{{ post.author.username }}</a> le {{ post.creationDate|date('m/d/Y') }}</small>
                 </p>
                 <p>
-                    
-                    {{ post.content|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify  }}
+                    {{ post.summary|truncate(500, true, '<a href="' ~ postShowLink ~ '">...</a>')|purify }}
                 </p>
                 <p class="text-right">
                     <a href="{{ postShowLink }}" class="btn btn-primary">En savoir plus</a>

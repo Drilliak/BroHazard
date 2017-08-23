@@ -19,6 +19,6 @@ class AutolinkExtension extends \Twig_Extension
 
     public function getName()
     {
-        return 'AutolinkExtension';
+        return 'AutolinkTwitterExtension';
     }
 }

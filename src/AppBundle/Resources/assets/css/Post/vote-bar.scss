@@ -1,0 +1,47 @@
+$likeColor: #63b96b;
+$dislikeColor: #f2504b;
+
+.vote{
+  width: 150px;
+  float: right;
+  margin: 50px 0;
+  form {
+    display: inline;
+  }
+}
+
+.vote-bar{
+  width:100%;
+  height: 4px;
+  background-color: $dislikeColor;
+}
+
+.vote-progress{
+  height: 4px;
+  width: 100%;
+  background-color: $likeColor;
+  transition: width 0.3s;
+}
+
+.vote-btns{
+  margin-top:10px;
+  text-align: right;
+}
+
+.vote-btn{
+  border:none;
+  padding: 0;
+  margin: 0 0 0 10px;
+  display: inline-block;
+  cursor: pointer;
+  background: transparent;
+  transition: color 0.5s;
+}
+
+.vote-like:hover, .is-liked .vote-like{
+  color: $likeColor;
+}
+
+.vote-dislike:hover, .is-disliked .vote-dislike{
+  color: $dislikeColor;
+}

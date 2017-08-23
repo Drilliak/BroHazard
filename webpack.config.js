@@ -10,16 +10,13 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const dev = process.env.NODE_ENV === "dev";
 
 
-
-
 const cssLoaders = [
     {
-        loader: 'css-loader',
-        options: {
-            importLoaders: 1,
-            minimize: !dev
-        }
+        loader: "css-loader", options: {
+        importLoaders: 1,
+        minimize: !dev
     }
+    },
 ];
 
 if (!dev) {
@@ -44,11 +41,14 @@ let config = {
         filename: dev ? '[name].js' : '[name].[chunkhash].js'
     },
     resolve: {
-        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".css", ".scss"]
+        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".css", ".scss"],
+        alias: {
+            '@css': path.resolve('./src/AppBundle/Resources/assets/css/')
+        }
     },
     devtool: dev ? "cheap-module-eval-source-map" : false,
     devServer: {
-      contentBase: path.resolve('./web')
+        contentBase: path.resolve('./web')
     },
     module: {
         rules: [
@@ -77,6 +77,29 @@ let config = {
                     fallback: "style-loader",
                     use: [...cssLoaders, 'sass-loader']
                 })
+            },
+            {
+                test: /\.(svg|woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'file-loader'
+
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                            name: '[name].[hash].[ext]'
+                        }
+                    },
+                    {
+                        loader: 'img-loader',
+                        options: {
+                            enabled: !dev
+                        }
+                    }
+                ]
             }
         ]
     },

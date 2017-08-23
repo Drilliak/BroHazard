@@ -21,3 +21,5 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     twitter_consumer_key: ~
     twitter_consumer_secret: ~
+    twitter_brohazard_access_token: ~
+    twitter_brohazard_access_token_secret: ~

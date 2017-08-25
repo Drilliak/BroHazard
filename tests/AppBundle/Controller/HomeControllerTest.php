@@ -6,18 +6,13 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class HomeControllerTest extends WebTestCase
 {
-
     /**
-     * Teste le système de login : on s'attend à être redirigé après soumission du formulaire.
+     * Tese si la page est correctement accessible pour un utilisateur quelconque
      */
-    public function testLogin(){
+    public function testIndexLoading()
+    {
         $client = $this->makeClient();
-        $crawler = $client->request('GET', '/');
-        $form = $crawler->selectButton('_submit')->form();
-        $form->setValues(['_username' => 'test', '_password' => 'test']);
-        $client->submit($form);
-        $this->assertStatusCode(302, $client);
+        $client->request('GET', '/');
+        $this->isSuccessful($client->getResponse());
     }
-
-
 }

@@ -9,10 +9,10 @@ services:
         # automatically injects dependencies in your services
         autowire: false
         # automatically registers your services as commands, event subscribers, etc.
-        autoconfigure: true
+        autoconfigure: false
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
-        public: false
+        public: true
 
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -51,3 +51,24 @@ services:
         class: UserBundle\EventListener\LoginListener
         arguments:
             - "@session"
+    app.twitter.api:
+        class: AppBundle\Twitter\Twitter
+        arguments:
+            - "%twitter_consumer_key%"
+            - "%twitter_consumer_secret%"
+            - "%twitter_brohazard_access_token%"
+            - "%twitter_brohazard_access_token_secret%"
+            - "%kernel.environment%"
+
+    app.twitter.autolink_extension:
+        class: AppBundle\Twitter\AutolinkExtension
+        tags:
+            - { name: twig.extension }
+    app.new_post_listener:
+        class: AppBundle\EventListener\NewPostListener
+        arguments:
+            - "@app.twitter.api"
+            - "@router"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }

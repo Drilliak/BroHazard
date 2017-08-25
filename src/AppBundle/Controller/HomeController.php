@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
 
+    const TWITTER_ACCOUNT = "Brohazard_FR";
 
     /**
      * @return Response
@@ -28,8 +29,8 @@ class HomeController extends Controller
             $accounts[] = $queryResult['username'];
         }
         try {
-            $twitter = $this->get('twitter.api');
-            $lastsTweets = $twitter->lastTweets($accounts, 5);
+            $twitter = $this->get('app.twitter.api');
+            $lastsTweets = $twitter->lastTweets([self::TWITTER_ACCOUNT], 5);
         } catch (TwitterOAuthException $e) {
             $lastsTweets = 'Impossible de se connecter à Twitter, veuillez réessayer utlérieurement.';
         }

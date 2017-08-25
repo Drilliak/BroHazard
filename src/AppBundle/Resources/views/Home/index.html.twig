@@ -18,8 +18,10 @@
                         {% set postShowLink = path("post_show", {"slug": lastPost.slug, "categorySlug": lastPost.category.slug}) %}
                         <h2><a href="{{ postShowLink }}">{{ lastPost.name }}</a></h2>
                         <p>
-                            <small>Categorie : <a href="{{ path('lists_posts_category', {'categorySlug' : lastPost.category.slug}) }}">{{ lastPost.category }}</a>,
-                                de <a href="{{ path("list_posts_author", {"idAuthor": lastPost.author.id }) }}">{{ lastPost.author.username }}</a>
+                            <small>Categorie : <a
+                                        href="{{ path('lists_posts_category', {'categorySlug' : lastPost.category.slug}) }}">{{ lastPost.category }}</a>,
+                                de
+                                <a href="{{ path("list_posts_author", {"idAuthor": lastPost.author.id }) }}">{{ lastPost.author.username }}</a>
                                 <time class="timeago" datetime="{{ lastPost.creationDate|date('c') }}"></time>
                             </small>
                         </p>
@@ -31,7 +33,7 @@
                         </p>
                     </article>
                 {% endfor %}
-            
+
             </div>
             <div class="col-md-4">
                 <div class="page-header">
@@ -48,7 +50,8 @@
                                 {{ autolink(lastTweet.text)|purify }}
                                 <small>
                                     <time class="timeago" datetime="{{ lastTweet.created_at|date('c') }}"></time>
-                                    par <a href="https://twitter.com/{{ lastTweet.user.name }}">{{ lastTweet.user.name }}</a>
+                                    par
+                                    <a href="https://twitter.com/{{ lastTweet.user.screen_name }}">{{ lastTweet.user.name }}</a>
                                 </small>
                             </li>
                         {% endfor %}
@@ -57,13 +60,13 @@
             </div>
         </div>
 
-    
+
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('jquery.timeago.js') }}"></script>
-    <script src="{{ asset('format_date_ago.js') }}"></script>
+    <script src="{{ asset('date/jquery.timeago.js')}}"></script>
+    <script src="{{ asset('date/format_date_ago.js') }}"></script>
 {% endblock %}
 

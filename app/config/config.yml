@@ -32,6 +32,7 @@ framework:
     http_method_override: true
     php_errors:
         log: true
+    assets: ~
 
 # Twig Configuration
 twig:
@@ -102,3 +103,10 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true
+
+maba_webpack:
+    aliases:
+        additional:
+            css: '%kernel.project_dir%/src/AppBundle/Resources/assets/css'
+            js: '%kernel.project_dir%/src/AppBundle/Resources/assets/js'
+            img: '%kernel.project_dir%/src/AppBundle/Resources/assets/img'

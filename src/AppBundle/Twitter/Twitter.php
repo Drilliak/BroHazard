@@ -34,7 +34,6 @@ class Twitter
     private $environment;
 
 
-
     public function __construct(string $consumerKey, string $consumerSecret, string $accessToken, string $accessTokenSecret, string $environment)
     {
         $this->consumerKey = $consumerKey;
@@ -57,7 +56,7 @@ class Twitter
     public function lastTweets(array $screenNames, $limit = 3)
     {
         $cache = new FilesystemCache();
-        if (!$cache->has('twitter.last_tweets')) {
+        if (!$cache->has('twitter.last_tweets') || true) {
             $tweets = [];
             foreach ($screenNames as $screenName) {
                 $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, null, $this->getAppAccessToken());
@@ -84,15 +83,26 @@ class Twitter
      */
     public function tweet(string $status)
     {
-        $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
-        return $twitter->post('statuses/update', [
-            'status' => $status
-        ]);
+        if ($this->environment === "prod") {
+            $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+
+            return $twitter->post('statuses/update', [
+                'status' => $status
+            ]);
+        }
+
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
         $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
         return $twitter->post('statuses/destroy/' . $id);
+    }
+
+    public function configuration()
+    {
+        $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, null, $this->getAppAccessToken());
+        return $twitter->get('help/configuration');
     }
 
     private function sort($tweet1, $tweet2)

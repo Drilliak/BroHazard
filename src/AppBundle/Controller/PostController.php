@@ -212,12 +212,12 @@ class PostController extends Controller
             $post->setAuthor($author);
             if ($form->isValid()) {
 
-                $event = new NewPostEvent($post);
-                $this->get('event_dispatcher')->dispatch(AppEvents::NEW_POST);
-
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
+
+                $event = new NewPostEvent($post);
+                $this->get('event_dispatcher')->dispatch(AppEvents::NEW_POST, $event);
 
                 $this->addFlash("success", "Votre article a bien été créé");
                 return $this->redirectToRoute("post_show", ["slug" => $post->getSlug(), "categorySlug" => $post->getCategory()->getSlug()]);

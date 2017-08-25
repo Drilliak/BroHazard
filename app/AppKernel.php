@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

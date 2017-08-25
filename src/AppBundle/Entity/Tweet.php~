@@ -1,0 +1,58 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: vincent
+ * Date: 23/08/17
+ * Time: 21:30
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="tweets")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\TweetRepository")
+*/
+class Tweet
+{
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_twitter", type="string", length=50)
+     */
+    private $idTwitter;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text", type="string", length=140)
+     */
+    private $text;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="truncated", type="boolean")
+     */
+    private $truncated;
+
+}

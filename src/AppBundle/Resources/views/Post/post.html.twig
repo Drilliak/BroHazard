@@ -5,7 +5,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('dist/Post/vote-bar.css') }}">
 {% endblock %}
 
@@ -143,8 +142,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src= {{ asset('bundles/app/js/jquery.timeago.js') }}></script>
-    <script src="{{ asset('bundles/app/js/format_date_ago.js') }}"></script>
     <script src="{{ asset('dist/Post/post.js') }}"></script>
     <script src="{{ asset('dist/Post/vote-bar.js') }}"></script>
     <script>

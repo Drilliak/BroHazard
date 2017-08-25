@@ -7,16 +7,17 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
-    {% if app.environment == "prod" %}
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('dist/bootstrap.css') }}">
-            <link rel="stylesheet" href="{{ asset('dist/base.css') }}">
-        {% endblock %}
-    {% endif %}
-    {% block stylesheets_global %}
+    {% block stylesheets %}
+        {% webpack css "@js/bootstrap.js" %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% end_webpack %}
 
+        {% webpack css "@js/base.js" %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+        {% end_webpack %}
     {% endblock %}
-    <link rel="icon" type="image/png" href="{{ asset('img/favicon_brohazard.png') }}">
+
+    <link rel="icon" type="image/png" href="{{ webpack_asset('@AppBundle/Resources/assets/img/logo/logo_50x50.png') }}">
 </head>
 <body>
 {% block header %}
@@ -42,23 +43,9 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('jquery.min.js') }}"></script>
-    <script>
-        setTimeout(function () {
-            $('.alert').slideUp(500, function () {
-                $(this).remove();
-            });
-        }, 5000)
-    </script>
-    <script src="{{ asset('dist/bootstrap.js') }}"></script>
-
+    <script src="{{ asset('jquery.min.js')}}"></script>
+    <script src="{{ webpack_asset('@js/bootstrap-js.js') }}"></script>
 {% endblock %}
-
-{% if app.environment == "dev" %}
-    {% block javascript_dev %}
-        <script src="{{ asset('dist/base.js') }}"></script>
-    {% endblock %}
-{% endif %}
 
 
 </body>

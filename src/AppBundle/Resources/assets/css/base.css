@@ -25,3 +25,7 @@ body{
 .checkbox{
    text-align: center;
 }
+
+#icon-container{
+    transform: translateY(-15px);
+}

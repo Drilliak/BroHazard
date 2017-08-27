@@ -38,7 +38,7 @@ class NewPostListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            AppEvents::NEW_POST => "sendTweet",
+            AppEvents::NEW_POST => 'sendTweet',
         ];
     }
 
@@ -48,13 +48,13 @@ class NewPostListener implements EventSubscriberInterface
         $author = $post->getAuthor()->getUsername();
         $slug = $post->getSlug();
         $categorySlug = $post->getCategory()->getSlug();
-        $url = $this->router->generate("post_show", ['slug' => $slug, 'categorySlug' => $categorySlug], UrlGeneratorInterface::ABSOLUTE_URL);
-        $homePageUrl = $this->router->generate("homepage", [],UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->router->generate('post_show', ['slug' => $slug, 'categorySlug' => $categorySlug], UrlGeneratorInterface::ABSOLUTE_URL);
+        $homePageUrl = $this->router->generate('homepage', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $tweetApi = $this->twitter->tweet("Nouvel article incroyable de $author disponible ici : $url.\n $homePageUrl");
 
         $tweet = new Tweet();
         $date = new \DateTime($tweetApi->created_at);
-        $date->format("D M d H:i:s +B Y");
+        $date->format('D M d H:i:s +B Y');
         $tweet->setCreatedAt($date);
         $tweet->setIdTwitter($tweetApi->id_str);
         $tweet->setText($tweetApi->text);
@@ -63,7 +63,4 @@ class NewPostListener implements EventSubscriberInterface
         $this->entityManager->persist($tweet);
         $this->entityManager->flush();
     }
-
-
 }
-

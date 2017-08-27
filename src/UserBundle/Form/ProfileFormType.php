@@ -1,17 +1,16 @@
 <?php
-namespace UserBundle\Form;
 
+namespace UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-
 
 class ProfileFormType extends AbstractType
 {
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
         $builder->add('profilePictureFile', FileType::class, [
-            'label' => "Image de profil"
+            'label' => 'Image de profil'
         ]);
     }
 

@@ -7,7 +7,6 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 
 class Twitter
 {
-
     /**
      * @var string
      */
@@ -33,7 +32,6 @@ class Twitter
      */
     private $environment;
 
-
     public function __construct(string $consumerKey, string $consumerSecret, string $accessToken, string $accessTokenSecret, string $environment)
     {
         $this->consumerKey = $consumerKey;
@@ -50,6 +48,7 @@ class Twitter
     {
         $oauth = new TwitterOAuth($this->consumerKey, $this->consumerSecret);
         $accessToken = $oauth->oauth2('oauth2/token', ['grant_type' => 'client_credentials']);
+
         return $accessToken->access_token;
     }
 
@@ -66,7 +65,7 @@ class Twitter
                     'count'           => 5
                 ]));
             }
-            usort($tweets, [$this, "sort"]);
+            usort($tweets, [$this, 'sort']);
             $cache->set('twitter.last_tweets', $tweets, 180);
         } else {
             $tweets = $cache->get('twitter.last_tweets');
@@ -79,47 +78,48 @@ class Twitter
      * Permet de tweet un contenu.
      *
      * @param string $status Contenu du tweet. Doit être inférieur à 140 caractères.
+     *
      * @return array|object
      */
     public function tweet(string $status)
     {
-        if ($this->environment === "prod") {
+        if ($this->environment === 'prod') {
             $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
 
             return $twitter->post('statuses/update', [
                 'status' => $status
             ]);
         }
-
     }
 
     public function destroy(string $id)
     {
         $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+
         return $twitter->post('statuses/destroy/' . $id);
     }
 
     public function configuration()
     {
         $twitter = new TwitterOAuth($this->consumerKey, $this->consumerSecret, null, $this->getAppAccessToken());
+
         return $twitter->get('help/configuration');
     }
 
     private function sort($tweet1, $tweet2)
     {
-        $format = "D M d H:i:s +B Y";
+        $format = 'D M d H:i:s +B Y';
         $d1 = new \DateTime($tweet1->created_at);
         $d1->format($format);
         $d2 = new \DateTime($tweet2->created_at);
         $d2->format($format);
 
-        if ($d1 == $d2) {
+        if ($d1 === $d2) {
             return 0;
         } elseif ($d1 < $d2) {
             return 1;
-        } else {
-            return -1;
         }
 
+        return -1;
     }
 }

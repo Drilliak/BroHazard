@@ -3,20 +3,19 @@
 namespace UserBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use UserBundle\Entity\User;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
-
-
-    /** @var  ContainerInterface */
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+{
+    /** @var ContainerInterface */
     private $container;
+
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager
      */
@@ -44,7 +43,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setEmail('hugo@lebro.fr');
         $user->setEnabled(true);
         $user->setPassword($encoder->encodePassword($user, 'hugo'));
-        $user->setRoles(["ROLE_ADMIN"]);
+        $user->setRoles(['ROLE_ADMIN']);
         $this->setReference('user.hugo', $user);
         $manager->persist($user);
 
@@ -61,10 +60,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setEmail('drilliak@drilliak.fr');
         $user->setEnabled(true);
         $user->setPassword($encoder->encodePassword($user, 'drilliak'));
-        $user->setRoles(["ROLE_SUPER_ADMIN"]);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
         $this->setReference('user.drilliak', $user);
         $manager->persist($user);
-
 
         $manager->flush();
     }
@@ -80,7 +78,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOrder()
     {

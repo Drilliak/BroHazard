@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 23/08/17
- * Time: 21:30
+ * Time: 21:30.
  */
 
 namespace AppBundle\Entity;
@@ -11,13 +11,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-* @ORM\Entity
-* @ORM\Table(name="tweets")
-* @ORM\Entity(repositoryClass="AppBundle\Repository\TweetRepository")
-*/
+ * @ORM\Entity
+ * @ORM\Table(name="tweets")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TweetRepository")
+ */
 class Tweet
 {
-
     /**
      * @var int
      *
@@ -55,11 +54,10 @@ class Tweet
      */
     private $truncated;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -67,7 +65,7 @@ class Tweet
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -81,7 +79,7 @@ class Tweet
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -91,7 +89,7 @@ class Tweet
     }
 
     /**
-     * Set idTwitter
+     * Set idTwitter.
      *
      * @param string $idTwitter
      *
@@ -105,7 +103,7 @@ class Tweet
     }
 
     /**
-     * Get idTwitter
+     * Get idTwitter.
      *
      * @return string
      */
@@ -115,7 +113,7 @@ class Tweet
     }
 
     /**
-     * Set text
+     * Set text.
      *
      * @param string $text
      *
@@ -129,7 +127,7 @@ class Tweet
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string
      */
@@ -139,9 +137,9 @@ class Tweet
     }
 
     /**
-     * Set truncated
+     * Set truncated.
      *
-     * @param boolean $truncated
+     * @param bool $truncated
      *
      * @return Tweet
      */
@@ -153,9 +151,9 @@ class Tweet
     }
 
     /**
-     * Get truncated
+     * Get truncated.
      *
-     * @return boolean
+     * @return bool
      */
     public function getTruncated()
     {

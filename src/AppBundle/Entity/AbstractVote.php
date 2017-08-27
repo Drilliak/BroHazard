@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 21/08/17
- * Time: 15:06
+ * Time: 15:06.
  */
 
 namespace AppBundle\Entity;
@@ -27,29 +27,37 @@ class AbstractVote
      */
     private $dislike = 0;
 
-    public function getLike(): int{
+    public function getLike(): int
+    {
         return $this->like;
     }
 
-    public function setLike(int $like): self{
+    public function setLike(int $like): self
+    {
         $this->like = $like;
+
         return $this;
     }
 
-    public function getDislike(): int{
+    public function getDislike(): int
+    {
         return $this->dislike;
     }
 
-    public function setDislike(int $dislike): self{
+    public function setDislike(int $dislike): self
+    {
         $this->dislike = $dislike;
+
         return $this;
     }
 
-    public function like(){
-        $this->like++;
+    public function like()
+    {
+        ++$this->like;
     }
 
-    public function dislike(){
-        $this->dislike++;
+    public function dislike()
+    {
+        ++$this->dislike;
     }
 }

@@ -7,8 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class User
- * @package AppBundle\Entity
+ * Class User.
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
@@ -31,7 +30,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * 
+     *
      * @Assert\File(maxSize="2048k")
      * @Assert\Image(mimeTypesMessage="Merci de choisir un format d'image valide")
      */
@@ -52,7 +51,7 @@ class User extends BaseUser
     }
 
     /**
-     * Add post
+     * Add post.
      *
      * @param \AppBundle\Entity\Post $post
      *
@@ -62,11 +61,12 @@ class User extends BaseUser
     {
         $this->posts[] = $post;
         $post->setAuthor($this);
+
         return $this;
     }
 
     /**
-     * Remove post
+     * Remove post.
      *
      * @param \AppBundle\Entity\Post $article
      */
@@ -76,7 +76,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get posts
+     * Get posts.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -86,7 +86,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set profilePictureFile
+     * Set profilePictureFile.
      *
      * @param string $profilePictureFile
      *
@@ -100,7 +100,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get profilePictureFile
+     * Get profilePictureFile.
      *
      * @return string
      */
@@ -110,7 +110,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -124,7 +124,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */

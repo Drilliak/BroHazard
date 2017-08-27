@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Vincent
  * Date: 29/07/2017
- * Time: 00:45
+ * Time: 00:45.
  */
 
 namespace AppBundle\DataFixtures\ORM;
-
 
 use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -16,8 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
 {
-
-    private $text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci alias, animi asperiores autem dicta dignissimos dolor dolorum ducimus eius illo iste,
+    private $text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci alias, animi asperiores autem dicta dignissimos dolor dolorum ducimus eius illo iste,
      iusto perferendis perspiciatis quae quas quo reiciendis similique, sint tenetur? Accusamus amet architecto autem doloribus eaque eius fugiat impedit in, laborum natus nisi
       numquam odio optio quod ratione voluptas voluptatum. Amet asperiores consequuntur expedita facere minima molestias, quis recusandae sed. Asperiores assumenda dolores iusto
        officiis similique sunt ullam. Amet aperiam architecto assumenda at autem beatae consequuntur cum cumque debitis distinctio eius, eos error et facilis fugit ipsum itaque
@@ -64,9 +62,10 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
                             veritatis vero. Accusantium architecto aut cumque, deleniti eveniet ex expedita facilis illo laudantium libero magni mollitia natus qui recusandae sunt
                              tempore vero. Ab alias beatae commodi corporis, cumque dolor eligendi impedit modi nam nesciunt nostrum officiis optio perferendis perspiciatis quae 
                              quaerat quas quisquam soluta tempore veritatis? Consectetur delectus, deleniti dignissimos dolorem dolores eaque eos facilis fuga in incidunt iure 
-                             laborum molestiae molestias nemo nobis odio quas quibusdam sequi veniam voluptates. Atque eos esse est exercitationem maiores nemo, neque quod?";
+                             laborum molestiae molestias nemo nobis odio quas quibusdam sequi veniam voluptates. Atque eos esse est exercitationem maiores nemo, neque quod?';
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -79,7 +78,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $date = new \DateTime();
         $post->setCreationDate($date);
         $post->setLastUpdateDate($date);
-        $this->setReference("post", $post);
+        $this->setReference('post', $post);
         $manager->persist($post);
 
         $post = new Post();
@@ -105,7 +104,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($post);
 
         $post = new Post();
-        $post->setName("Prank de Sardoche");
+        $post->setName('Prank de Sardoche');
         $post->setAuthor();
         $post->setCategory($this->getReference('category.esport'));
         $post->setAuthor($this->getReference('user.robin'));
@@ -127,7 +126,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($post);
 
         $post = new Post();
-        $post->setName("La létalité, ça pue");
+        $post->setName('La létalité, ça pue');
         $post->setAuthor();
         $post->setCategory($this->getReference('category.esport'));
         $post->setAuthor($this->getReference('user.hugo'));
@@ -152,7 +151,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOrder()
     {

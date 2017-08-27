@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 20/08/17
- * Time: 15:13
+ * Time: 15:13.
  */
 
 namespace AppBundle\Entity;
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
 
 /**
- * Vote
+ * Vote.
  *
  * @ORM\Table(name="votes")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\VoteRepository")
@@ -25,7 +25,6 @@ class Vote
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
      */
     private $id;
 
@@ -59,11 +58,10 @@ class Vote
      */
     private $createdAt;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -71,7 +69,7 @@ class Vote
     }
 
     /**
-     * Set ref
+     * Set ref.
      *
      * @param string $ref
      *
@@ -85,7 +83,7 @@ class Vote
     }
 
     /**
-     * Get ref
+     * Get ref.
      *
      * @return string
      */
@@ -95,9 +93,9 @@ class Vote
     }
 
     /**
-     * Set refId
+     * Set refId.
      *
-     * @param integer $refId
+     * @param int $refId
      *
      * @return Vote
      */
@@ -109,9 +107,9 @@ class Vote
     }
 
     /**
-     * Get refId
+     * Get refId.
      *
-     * @return integer
+     * @return int
      */
     public function getRefId()
     {
@@ -119,7 +117,7 @@ class Vote
     }
 
     /**
-     * Set value
+     * Set value.
      *
      * @param string $value
      *
@@ -133,7 +131,7 @@ class Vote
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string
      */
@@ -143,7 +141,7 @@ class Vote
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -157,7 +155,7 @@ class Vote
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -167,7 +165,7 @@ class Vote
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \UserBundle\Entity\User $user
      *
@@ -181,7 +179,7 @@ class Vote
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \UserBundle\Entity\User
      */

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 20/08/17
- * Time: 18:46
+ * Time: 18:46.
  */
 
 namespace AppBundle\Form;
-
 
 use AppBundle\Entity\Vote;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VoteType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -42,18 +40,18 @@ class VoteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            "data_class" => Vote::class,
-            "icon"       => null,
-            "path"       => null,
-            "type"       => null,
-            "value"      => 0,
-            "idSpan"         => null,
+            'data_class'     => Vote::class,
+            'icon'           => null,
+            'path'           => null,
+            'type'           => null,
+            'value'          => 0,
+            'idSpan'         => null,
         ]);
-        $resolver->setDefined(['icon', "path", "type", "value", "idSpan"]);
+        $resolver->setDefined(['icon', 'path', 'type', 'value', 'idSpan']);
     }
 
     public function getBlockPrefix()
     {
-        return "app_vote";
+        return 'app_vote';
     }
 }

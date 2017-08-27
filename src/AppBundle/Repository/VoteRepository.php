@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 20/08/17
- * Time: 15:14
+ * Time: 15:14.
  */
 
 namespace AppBundle\Repository;
-
 
 use Doctrine\ORM\EntityRepository;
 

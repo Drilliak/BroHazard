@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Comment
+ * Comment.
  *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
@@ -49,9 +49,8 @@ class Comment
      */
     private $creationDate;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -61,7 +60,7 @@ class Comment
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -75,7 +74,7 @@ class Comment
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -85,7 +84,7 @@ class Comment
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -99,7 +98,7 @@ class Comment
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -109,7 +108,7 @@ class Comment
     }
 
     /**
-     * Set creationDate
+     * Set creationDate.
      *
      * @param \DateTime $creationDate
      *
@@ -123,7 +122,7 @@ class Comment
     }
 
     /**
-     * Get creationDate
+     * Get creationDate.
      *
      * @return \DateTime
      */
@@ -133,7 +132,7 @@ class Comment
     }
 
     /**
-     * Set post
+     * Set post.
      *
      * @param \AppBundle\Entity\Post $post
      *
@@ -147,7 +146,7 @@ class Comment
     }
 
     /**
-     * Get post
+     * Get post.
      *
      * @return \AppBundle\Entity\Post
      */
@@ -155,6 +154,4 @@ class Comment
     {
         return $this->post;
     }
-
-
 }

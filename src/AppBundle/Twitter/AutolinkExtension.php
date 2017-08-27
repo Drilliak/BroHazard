@@ -2,11 +2,10 @@
 
 namespace AppBundle\Twitter;
 
-
 class AutolinkExtension extends \Twig_Extension
 {
-
-    public function autolink($tweet){
+    public function autolink($tweet)
+    {
         return \Twitter_Autolink::create()->autoLink($tweet);
     }
 

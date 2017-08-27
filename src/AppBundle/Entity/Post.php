@@ -3,12 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use UserBundle\Entity\User;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Entity\User;
 
 /**
- * Article
+ * Article.
  *
  * @ORM\Entity
  * @ORM\Table(name="post")
@@ -89,18 +89,16 @@ class Post extends AbstractVote
      */
     private $comments;
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -110,7 +108,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -124,7 +122,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -134,7 +132,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -148,7 +146,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -157,9 +155,8 @@ class Post extends AbstractVote
         return $this->content;
     }
 
-
     /**
-     * Set author
+     * Set author.
      *
      * @param \UserBundle\Entity\User $author
      *
@@ -173,7 +170,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get author
+     * Get author.
      *
      * @return \UserBundle\Entity\User
      */
@@ -182,9 +179,8 @@ class Post extends AbstractVote
         return $this->author;
     }
 
-
     /**
-     * Set creationDate
+     * Set creationDate.
      *
      * @param \DateTime $creationDate
      *
@@ -198,7 +194,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get creationDate
+     * Get creationDate.
      *
      * @return \DateTime
      */
@@ -208,7 +204,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Set lastUpdateDate
+     * Set lastUpdateDate.
      *
      * @param \DateTime $lastUpdateDate
      *
@@ -222,7 +218,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get lastUpdateDate
+     * Get lastUpdateDate.
      *
      * @return \DateTime
      */
@@ -232,7 +228,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Add comment
+     * Add comment.
      *
      * @param \AppBundle\Entity\Comment $comment
      *
@@ -242,11 +238,12 @@ class Post extends AbstractVote
     {
         $this->comments[] = $comment;
         $comment->setPost($this);
+
         return $this;
     }
 
     /**
-     * Remove comment
+     * Remove comment.
      *
      * @param \AppBundle\Entity\Comment $comment
      */
@@ -256,7 +253,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -266,7 +263,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Set category
+     * Set category.
      *
      * @param \AppBundle\Entity\Category $category
      *
@@ -280,7 +277,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return \AppBundle\Entity\Category
      */
@@ -290,7 +287,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
      *
@@ -304,7 +301,7 @@ class Post extends AbstractVote
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -315,6 +312,7 @@ class Post extends AbstractVote
 
     /**
      * @param $summary
+     *
      * @return $this
      */
     public function setSummary(string $summary)

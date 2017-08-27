@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 22/08/17
- * Time: 22:11
+ * Time: 22:11.
  */
 
 namespace AppBundle\Event;
@@ -23,7 +23,8 @@ class NewPostEvent extends Event
         $this->post = $post;
     }
 
-    public function getPost() : Post{
+    public function getPost(): Post
+    {
         return $this->post;
     }
 }

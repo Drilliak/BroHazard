@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class TwitterController extends Controller
 {
     /**
-     * Page d'administration des comptes twitter affichés en page d'accueil
+     * Page d'administration des comptes twitter affichés en page d'accueil.
      */
     public function showAction()
     {
@@ -29,10 +29,9 @@ class TwitterController extends Controller
             $formsAccounts[] = $this->createEditTwitterAccountForm($account)->createView();
         }
 
-
         $addAccount = $this->addTwitterAccountForm()->createView();
 
-        return $this->render("AppBundle:Twitter:twitter_accounts.html.twig", [
+        return $this->render('AppBundle:Twitter:twitter_accounts.html.twig', [
             'formsAccounts' => $formsAccounts,
             'addAccount'    => $addAccount
         ]);
@@ -40,7 +39,6 @@ class TwitterController extends Controller
 
     public function editAccountAction(Request $request, TwitterAccount $account)
     {
-
     }
 
     private function createEditTwitterAccountForm(TwitterAccount $account): FormInterface
@@ -55,7 +53,7 @@ class TwitterController extends Controller
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "Modifier"
+                'label' => 'Modifier'
             ])
             ->getForm();
     }
@@ -67,7 +65,7 @@ class TwitterController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()){
+        if ($form->isValid() && $form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($account);
             $em->flush();
@@ -86,11 +84,11 @@ class TwitterController extends Controller
             ->add('username', TextType::class, [
                 'label' => false,
                 'attr'  => [
-                    "placeholder" => "Ajouter un compte"
+                    'placeholder' => 'Ajouter un compte'
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                "label" => "Ajouter"
+                'label' => 'Ajouter'
             ])
             ->getForm();
     }

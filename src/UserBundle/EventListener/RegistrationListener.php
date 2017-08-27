@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Vincent
  * Date: 02/08/2017
- * Time: 23:57
+ * Time: 23:57.
  */
 
 namespace UserBundle\EventListener;
-
 
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RegistrationListener implements EventSubscriberInterface
 {
-
     /**
      * @var UrlGeneratorInterface
      */
@@ -28,17 +26,18 @@ class RegistrationListener implements EventSubscriberInterface
      */
     private $session;
 
-    public function __construct(UrlGeneratorInterface $router, Session $session){
-
+    public function __construct(UrlGeneratorInterface $router, Session $session)
+    {
         $this->router = $router;
         $this->session = $session;
     }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
-        return [FOSUserEvents::REGISTRATION_CONFIRM => "onRegistrationConfirm"];
+        return [FOSUserEvents::REGISTRATION_CONFIRM => 'onRegistrationConfirm'];
     }
 
     public function onRegistrationConfirm(GetResponseUserEvent $event)

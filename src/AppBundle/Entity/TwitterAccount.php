@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vincent
  * Date: 17/08/17
- * Time: 19:16
+ * Time: 19:16.
  */
 
 namespace AppBundle\Entity;
@@ -11,11 +11,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Twitter accoount
+ * Twitter accoount.
  *
  * @ORM\Table(name="twitter_accounts")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TwitterAccountRepository")
- *
  */
 class TwitterAccount
 {
@@ -35,11 +34,10 @@ class TwitterAccount
      */
     private $username;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -47,7 +45,7 @@ class TwitterAccount
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -61,7 +59,7 @@ class TwitterAccount
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */

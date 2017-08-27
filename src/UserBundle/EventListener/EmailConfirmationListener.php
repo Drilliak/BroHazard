@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Vincent
  * Date: 01/08/2017
- * Time: 21:25
+ * Time: 21:25.
  */
 
 namespace UserBundle\EventListener;
-
 
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -21,12 +20,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Surcharge de la classe éponyme du bundle FosUserBundle afin d'ajuster le comportement
  * après inscription
- * Class EmailConfirmationListener
- * @package UserBundle\EventListener
+ * Class EmailConfirmationListener.
  */
 class EmailConfirmationListener implements EventSubscriberInterface
 {
-
     /**
      * @var MailerInterface
      */
@@ -46,7 +43,6 @@ class EmailConfirmationListener implements EventSubscriberInterface
 
     public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session)
     {
-
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->router = $router;
@@ -54,11 +50,11 @@ class EmailConfirmationListener implements EventSubscriberInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
-        return [FOSUserEvents::REGISTRATION_SUCCESS => "onRegistrationSuccess"];
+        return [FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess'];
     }
 
     public function onRegistrationSuccess(FormEvent $event)

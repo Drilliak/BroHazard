@@ -2,18 +2,15 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-
 use AppBundle\Entity\Category;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -23,18 +20,18 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($category);
 
         $category = new Category();
-        $category->setName("Développement");
+        $category->setName('Développement');
         $manager->persist($category);
 
         $category = new Category();
-        $category->setName("Autres");
+        $category->setName('Autres');
         $manager->persist($category);
 
         $manager->flush();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOrder()
     {

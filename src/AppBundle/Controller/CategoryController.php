@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Vincent
  * Date: 13/08/2017
- * Time: 22:17
+ * Time: 22:17.
  */
 
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,10 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CategoryController extends Controller
 {
-
     /**
      * Page qui permet de gérer les catégories depuis l'administration
-     * Role admin requis
+     * Role admin requis.
      */
     public function showAction(Request $request)
     {
@@ -49,14 +47,14 @@ class CategoryController extends Controller
         $newCategoryForm = $this->newCategoryForm()->createView();
 
         return $this->render('@App/Category/categories.html.twig', [
-            "categories"  => $categories,
-            "updateForms" => $updateForms,
-            "newCategoryForm" => $newCategoryForm
+            'categories'      => $categories,
+            'updateForms'     => $updateForms,
+            'newCategoryForm' => $newCategoryForm
         ]);
     }
 
     /**
-     * Permet de modifier le nom d'une catégorie
+     * Permet de modifier le nom d'une catégorie.
      *
      * @param Request  $request
      * @param Category $category
@@ -65,7 +63,6 @@ class CategoryController extends Controller
      */
     public function updateAction(Request $request, Category $category): RedirectResponse
     {
-
         $form = $this->createUpdateForm($category);
         $form->handleRequest($request);
 
@@ -79,7 +76,6 @@ class CategoryController extends Controller
 
         return $this->redirectToRoute('admin_categories');
     }
-
 
     /**
      * @param Category $category
@@ -98,13 +94,13 @@ class CategoryController extends Controller
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "Modifier"
+                'label' => 'Modifier'
             ])
             ->getForm();
     }
 
     /**
-     * Soumission du formulaire de création d'une catégorie
+     * Soumission du formulaire de création d'une catégorie.
      *
      * @param Request $request
      *
@@ -121,14 +117,14 @@ class CategoryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-            $this->addFlash('success', "Catégorie créée avec succès");
+            $this->addFlash('success', 'Catégorie créée avec succès');
         }
 
-        return $this->redirectToRoute("admin_categories");
+        return $this->redirectToRoute('admin_categories');
     }
 
     /**
-     * Création du formulaire de soumission d'une catégorie
+     * Création du formulaire de soumission d'une catégorie.
      *
      * @return FormInterface
      */
@@ -137,15 +133,14 @@ class CategoryController extends Controller
         return $this->createFormBuilder($category)
             ->setAction($this->generateUrl('admin_new_category'))
             ->add('name', TextType::class, [
-                "label" => false,
-                "attr"  => [
-                    "placeholder" => "Nouvelle catégorie"
+                'label' => false,
+                'attr'  => [
+                    'placeholder' => 'Nouvelle catégorie'
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                "label" => "Créer"
+                'label' => 'Créer'
             ])
             ->getForm();
     }
-
 }

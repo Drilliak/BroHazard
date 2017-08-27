@@ -2,32 +2,22 @@
 
 namespace AppBundle\Controller;
 
-
 use Abraham\TwitterOAuth\TwitterOAuthException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
-
-    const TWITTER_ACCOUNT = "Brohazard_FR";
+    const TWITTER_ACCOUNT = 'Brohazard_FR';
 
     /**
      * @return Response
      */
     public function indexAction(): Response
     {
-
         $em = $this->getDoctrine()->getManager();
         $lastsPosts = $em->getRepository('AppBundle:Post')->findLastPosts(5);
 
-        $em =$this->getDoctrine()->getManager();
-        $repository = $em->getRepository("AppBundle:TwitterAccount");
-        $queryResults = $repository->findAllName();
-        $accounts = [];
-        foreach ($queryResults as $queryResult){
-            $accounts[] = $queryResult['username'];
-        }
         try {
             $twitter = $this->get('app.twitter.api');
             $lastsTweets = $twitter->lastTweets([self::TWITTER_ACCOUNT], 5);
@@ -35,17 +25,15 @@ class HomeController extends Controller
             $lastsTweets = 'Impossible de se connecter à Twitter, veuillez réessayer utlérieurement.';
         }
 
-
         return $this->render('@App/Home/index.html.twig',
             [
-                "lastPosts"  => $lastsPosts,
-                "lastTweets" => $lastsTweets
+                'lastPosts'  => $lastsPosts,
+                'lastTweets' => $lastsTweets
             ]);
     }
 
-    public function googleWebMasterToolsAction() : Response {
-        return $this->render("@App/Home/google-webmaster-tool.html.twig");
+    public function googleWebMasterToolsAction(): Response
+    {
+        return $this->render('@App/Home/google-webmaster-tool.html.twig');
     }
-
-
 }

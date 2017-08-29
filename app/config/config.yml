@@ -56,7 +56,7 @@ doctrine:
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
-        #path: '%database_path%'
+        path: '%database_path%'
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -81,6 +81,9 @@ fos_user:
     registration:
         confirmation:
             enabled: false
+    profile:
+        form:
+            type: UserBundle\Form\ProfileFormType
 
 knp_paginator:
     page_range: 10                      # default page range used in pagination control
@@ -93,9 +96,32 @@ knp_paginator:
         pagination: 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template
         sortable: 'KnpPaginatorBundle:Pagination:sortable_link.html.twig' # sort link templatege:5
 
+exercise_html_purifier:
+    default:
+        Cache.SerializerPath: '%kernel.cache_dir%/htmlpurifier'
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+
 maba_webpack:
     aliases:
         additional:
             js: '%kernel.project_dir%/src/AppBundle/Resources/assets/js'
             css: '%kernel.project_dir%/src/AppBundle/Resources/assets/css'
             img: '%kernel.project_dir%/src/AppBundle/Resources/assets/img'
+
+ivory_ck_editor:
+    default_config: my_config
+    configs:
+        my_config:
+            toolbar: standard
+    plugins:
+        codesnippet:
+            path: "/bundles/app/codesnippet/"
+            filename: "plugin.js"
+    toolbars:
+        configs:
+            my_toolbar_1: [ [ "Source", "-", "Save" ], "/", [ "Anchor" ], "/", [ "Maximize" ] ]
+            my_toolbar_2: [ [ "Source" ], "/", [ "Anchor" ], "/", [ "Maximize" ] ]

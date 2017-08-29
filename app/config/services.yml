@@ -72,3 +72,11 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_subscriber }
+    app.form.profile:
+        class: UserBundle\Form\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile }
+    app.file_uploader:
+        class: AppBundle\Service\FileUploader
+        arguments:
+            - '%kernel.project_dir%/web/img/ProfilePictures'

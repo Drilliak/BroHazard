@@ -4,9 +4,10 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Entity\User;
 
 /**
- * Comment
+ * Comment.
  *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
@@ -30,6 +31,14 @@ class Comment
     private $username;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
+    /**
      * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="content", type="text")
@@ -49,9 +58,8 @@ class Comment
      */
     private $creationDate;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -61,7 +69,7 @@ class Comment
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -75,7 +83,7 @@ class Comment
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -85,7 +93,7 @@ class Comment
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -99,7 +107,7 @@ class Comment
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -109,7 +117,7 @@ class Comment
     }
 
     /**
-     * Set creationDate
+     * Set creationDate.
      *
      * @param \DateTime $creationDate
      *
@@ -123,7 +131,7 @@ class Comment
     }
 
     /**
-     * Get creationDate
+     * Get creationDate.
      *
      * @return \DateTime
      */
@@ -133,7 +141,7 @@ class Comment
     }
 
     /**
-     * Set post
+     * Set post.
      *
      * @param \AppBundle\Entity\Post $post
      *
@@ -147,7 +155,7 @@ class Comment
     }
 
     /**
-     * Get post
+     * Get post.
      *
      * @return \AppBundle\Entity\Post
      */
@@ -155,6 +163,5 @@ class Comment
     {
         return $this->post;
     }
-
 
 }

@@ -190,10 +190,10 @@ class PostController extends Controller
      */
     public function newPostAction(Request $request): Response
     {
-        // On rejette tout utilisateur n'ayant pas au moins le rang USER, ie tout utilisateur
+        // On redirige en page d'accueil tout utilisateur n'ayant pas au moins le rang USER, ie tout utilisateur
         // non connecté
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-            throw new AccessDeniedException('Veuillez vous connecter pour écrire un article');
+            return $this->redirectToRoute('homepage');
         }
 
         $post = new Post();

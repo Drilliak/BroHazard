@@ -10,13 +10,14 @@ class ProfileFormType extends AbstractType
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
         $builder->add('profilePictureFile', FileType::class, [
-            'label' => 'Image de profil'
+            'label' => 'Image de profil',
+            'data_class' => null
         ]);
     }
 
     public function getParent()
     {
-        return \FOS\UserBundle\Form\Type\RegistrationFormType::class;
+        return \FOS\UserBundle\Form\Type\ProfileFormType::class;
     }
 
     public function getBlockPrefix()

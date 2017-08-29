@@ -7,13 +7,21 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class HomeControllerTest extends WebTestCase
 {
     /**
-     * Tese si la page est correctement accessible pour un utilisateur quelconque.
+     * Vérifie que la page d'accueil renvoie une réponse 200.
      */
-    public function testIndexLoading()
+    public function testHomepageResponse()
     {
         $client = $this->makeClient();
-        $crawler = $client->request('GET', '/');
-
+        $client->request('GET', '/');
         $this->isSuccessful($client->getResponse());
+    }
+
+    /**
+     * Vérifie que la page d'accueil n'affiche bien que 5 articles.
+     */
+    public function testNbPostsHomepage()
+    {
+        $crawler = $this->fetchCrawler('/');
+        $this->assertSame(5, $crawler->filter('article')->count());
     }
 }

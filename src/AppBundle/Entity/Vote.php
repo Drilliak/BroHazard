@@ -48,7 +48,7 @@ class Vote
 
     /**
      * @var int
-     * @ORM\Column(name="value")
+     * @ORM\Column(name="value", type="integer")
      */
     private $value;
 

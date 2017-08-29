@@ -29,12 +29,12 @@ class User extends BaseUser
     protected $posts;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      *
      * @Assert\File(maxSize="2048k")
      * @Assert\Image(mimeTypesMessage="Merci de choisir un format d'image valide")
      */
-    protected $profilePictureFile;
+    protected $profilePictureFile = 'gravatar.png';
 
     /**
      * @var Assert\DateTime

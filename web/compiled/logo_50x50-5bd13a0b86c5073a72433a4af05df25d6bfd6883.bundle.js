@@ -63,20 +63,21 @@
 /******/ 	__webpack_require__.p = "/compiled/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("module.exports = __webpack_require__.p + \"logo_50x50.036a1e7bd3040438b58688d829fd322b.png\";\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/img/logo/logo_50x50.png\n// module id = 0\n// module chunks = 0 1\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/img/logo/logo_50x50.png?");
-
-/***/ }),
+/* 0 */,
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(0);\n\n//////////////////\n// WEBPACK FOOTER\n// ./~/extract-file-loader?q=%2Frun%2Fmedia%2Fvincent%2FData%2FPhp%2FBrohazard%2Fsrc%2FAppBundle%2FResources%2Fassets%2Fimg%2Flogo%2Flogo_50x50.png!\n// module id = 1\n// module chunks = 0 1\n\n//# sourceURL=webpack:///?./~/extract-file-loader?q=%252Frun%252Fmedia%252Fvincent%252FData%252FPhp%252FBrohazard%252Fsrc%252FAppBundle%252FResources%252Fassets%252Fimg%252Flogo%252Flogo_50x50.png");
+eval("module.exports = __webpack_require__.p + \"logo_50x50.036a1e7bd3040438b58688d829fd322b.png\";\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/img/logo/logo_50x50.png\n// module id = 1\n// module chunks = 0 1\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/img/logo/logo_50x50.png?");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__(1);\n\n//////////////////\n// WEBPACK FOOTER\n// ./~/extract-file-loader?q=%2Frun%2Fmedia%2Fvincent%2FData%2FPhp%2FBrohazard%2Fsrc%2FAppBundle%2FResources%2Fassets%2Fimg%2Flogo%2Flogo_50x50.png!\n// module id = 2\n// module chunks = 0 1\n\n//# sourceURL=webpack:///?./~/extract-file-loader?q=%252Frun%252Fmedia%252Fvincent%252FData%252FPhp%252FBrohazard%252Fsrc%252FAppBundle%252FResources%252Fassets%252Fimg%252Flogo%252Flogo_50x50.png");
 
 /***/ })
 /******/ ]);

@@ -8,17 +8,31 @@ use AppBundle\Entity\Post;
 use AppBundle\Entity\Vote;
 use AppBundle\Event\NewPostEvent;
 use AppBundle\Form\CommentType;
+use AppBundle\Form\DeleteCommentType;
 use AppBundle\Form\PostType;
 use AppBundle\Form\VoteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 use UserBundle\Entity\User;
 
 class PostController extends Controller
 {
+
+    const LAST_CREATED = "last-created";
+
+    const LAST_EDITED = 'last-edited';
+
+    const LAST_COMMENTED = 'last-commented';
+
     /**
      * Page relative à l'article.
      *
@@ -29,6 +43,7 @@ class PostController extends Controller
     public function showAction(Request $request, string $slug): Response
     {
         $em = $this->getDoctrine()->getManager();
+        $voteRepository = $em->getRepository('AppBundle:Vote');
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
 
         if (null === $post) {
@@ -43,11 +58,11 @@ class PostController extends Controller
 
         if ($form->isSubmitted() && $isAuthenticated) {
             $comment->setCreationDate(new \DateTime());
-            $username = $this->get('security.token_storage')->getToken()->getUsername();
-            $comment->setUsername($username);
+            $comment->setUser($this->getUser());
             $comment->setPost($post);
             if ($form->isValid()) {
                 $em->persist($comment);
+                $post->setLastCommentDate(new \DateTime());
                 $em->flush();
 
                 return $this->redirectToRoute('post_show', ['slug' => $post->getSlug(), 'categorySlug' => $post->getCategory()->getSlug()]);
@@ -56,7 +71,7 @@ class PostController extends Controller
 
         /** @var bool $hasRight Autorisation de modifier ou de supprimer l'article */
         $hasRight = false;
-        $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+        $currentUser = $this->getUser();
         $isAdmin = $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
 
         // S'il s'agit d'un article dont l'utilisateur actuel est l'auteur ou si un admin accède à la page
@@ -65,20 +80,9 @@ class PostController extends Controller
             $hasRight = true;
         }
 
-        $vote = new Vote();
-        $likeForm = $this->get('form.factory')->create(VoteType::class, $vote, [
-            'type'  => 'like',
-            'path'  => $this->generateUrl('vote_like', ['ref' => 'post', 'ref_id' => $post->getId()]),
-            'value' => $post->getLike()
-        ])->createView();
+        $likeForm = $this->getLikeForm('like', $post);
+        $dislikeForm = $this->getLikeForm('dislike', $post);
 
-        $dislikeForm = $this->get('form.factory')->create(VoteType::class, $vote, [
-            'type'  => 'dislike',
-            'path'  => $this->generateUrl('vote_dislike', ['ref' => 'post', 'ref_id' => $post->getId()]),
-            'value' => $post->getDislike()
-        ])->createView();
-
-        $voteRepository = $em->getRepository('AppBundle:Vote');
         $vote = $voteRepository
             ->findOneBy([
                 'ref'   => 'post',
@@ -91,6 +95,10 @@ class PostController extends Controller
 
         $voteRepository->updateCount('post', $post->getId());
 
+        $deleteCommentForm = $this->get('form.factory')->create(DeleteCommentType::class, null, [
+            'path' => $this->generateUrl('delete_comment', ['id' => 2])
+        ]);
+
         return $this->render('AppBundle:Post:post.html.twig', [
             'post'         => $post,
             'comment_form' => $form->createView(),
@@ -98,8 +106,37 @@ class PostController extends Controller
             'likeForm'     => $likeForm,
             'dislikeForm'  => $dislikeForm,
             'class'        => $class,
-            'width'        => $width
+            'width'        => $width,
+            'test'         => $deleteCommentForm->createView()
         ]);
+    }
+
+    /**
+     * @param string $type
+     * @param Post   $post
+     *
+     * @return \Symfony\Component\Form\FormView
+     * @throws \Exception
+     */
+    private function getLikeForm(string $type, Post $post): FormView
+    {
+        $vote = new Vote();
+        if ($type !== 'like' && $type !== 'dislike') {
+            throw new \Exception('Type unsopported');
+        }
+        if ($type === 'like') {
+            return $this->get('form.factory')->create(VoteType::class, $vote, [
+                'type'  => 'like',
+                'path'  => $this->generateUrl('vote_like', ['ref' => 'post', 'ref_id' => $post->getId()]),
+                'value' => $post->getLike()
+            ])->createView();
+        } else {
+            return $this->get('form.factory')->create(VoteType::class, $vote, [
+                'type'  => 'dislike',
+                'path'  => $this->generateUrl('vote_dislike', ['ref' => 'post', 'ref_id' => $post->getId()]),
+                'value' => $post->getDislike()
+            ])->createView();
+        }
     }
 
     /**
@@ -134,9 +171,42 @@ class PostController extends Controller
      */
     public function postsAction(Request $request): Response
     {
+        $filter = $request->get('filter');
+        if (!in_array($filter, [self::LAST_CREATED, self::LAST_COMMENTED, self::LAST_EDITED])) {
+            $filter = self::LAST_CREATED;
+        }
+
+        $defaultData = ['filter' => $filter];
+        $formBuilder = $this->get('form.factory')->createNamedBuilder(null, FormType::class, $defaultData, ['csrf_protection' => false]);
+        $form = $formBuilder->add('filter', ChoiceType::class, [
+            'choices' => [
+                'Les derniers rédigés'   => self::LAST_CREATED,
+                'Les derniers modifiés'  => self::LAST_EDITED,
+                'Les derniers commentés' => self::LAST_COMMENTED
+            ],
+            'label'   => false,
+        ])
+            ->setMethod('GET')
+            ->getForm();
+
+
         $em = $this->getDoctrine();
-        $query = $em->getRepository('AppBundle:Post')
-            ->findAllQuery();
+
+        switch ($filter) {
+            case self::LAST_EDITED:
+                $query = $em->getRepository('AppBundle:Post')
+                    ->findLastEditedQuery();
+                break;
+            case self::LAST_COMMENTED:
+                $query = $em->getRepository('AppBundle:Post')
+                    ->findLastCommentedQuery();
+                break;
+            default:
+                $query = $em->getRepository('AppBundle:Post')
+                    ->findAllQuery();
+                break;
+        }
+
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -145,7 +215,8 @@ class PostController extends Controller
         );
 
         return $this->render('AppBundle:Post:posts.html.twig', [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'filterForm' => $form->createView()
         ]);
     }
 
@@ -293,4 +364,6 @@ class PostController extends Controller
 
         return $this->redirectToRoute('homepage');
     }
+
+
 }

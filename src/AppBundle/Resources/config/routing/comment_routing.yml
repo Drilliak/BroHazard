@@ -1,0 +1,5 @@
+delete_comment:
+    path: /delete
+    defaults:
+        _controller: AppBundle:Comment:delete
+    methods: [POST]

@@ -82,6 +82,12 @@ class Post extends AbstractVote
     private $lastUpdateDate;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(name="last_comment_date", type="datetime", nullable=true)
+     */
+    private $lastCommentDate;
+
+    /**
      * @var array
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
@@ -328,5 +334,29 @@ class Post extends AbstractVote
     public function getSummary(): ?string
     {
         return $this->summary;
+    }
+
+    /**
+     * Set lastUpdateDate.
+     *
+     * @param \DateTime $lastUpdateDate
+     *
+     * @return Post
+     */
+    public function setLastCommentDate($lastCommentDate)
+    {
+        $this->lastCommentDate = $lastCommentDate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdateDate.
+     *
+     * @return \DateTime
+     */
+    public function getLastCommentDate()
+    {
+        return $this->lastCommentDate;
     }
 }

@@ -41,6 +41,12 @@ super_admin_search_user:
         _controller: AppBundle:Admin:searchUser
     methods: [POST]
 
+lists_posts:
+    path: /posts
+    defaults:
+        _controller: AppBundle:Post:posts
+    methods: [GET]
+
 posts:
     resource : "@AppBundle/Resources/config/routing/posts_routing.yml"
     prefix: /posts
@@ -55,3 +61,7 @@ twitter:
 like:
     resource: "@AppBundle/Resources/config/routing/like_routing.yml"
     prefix: /ajax
+
+comment:
+    resource: "@AppBundle/Resources/config/routing/comment_routing.yml"
+    prefix: /comment

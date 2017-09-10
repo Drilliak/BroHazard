@@ -57,6 +57,28 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * Retourne la requête permettant de récupérer les derniers articles édités du site.
+     * @return Query
+     */
+    public function findLastEditedQuery(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lastUpdateDate', 'DESC')
+            ->getQuery();
+    }
+
+    /**
+     * Retourne la requête permettant de récupérer les derniers articles commentés du site.
+     * @return Query
+     */
+    public function findLastCommentedQuery(): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.lastCommentDate', 'DESC')
+            ->getQuery();
+    }
+
+    /**
      * Retourne la requête permettant de récupérer les articles d'un utilisateur.
      *
      * @param int $id Id de l'utilisateur

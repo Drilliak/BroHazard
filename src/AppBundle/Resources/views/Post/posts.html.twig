@@ -8,6 +8,11 @@
         <div class="page-header">
             <h2>
                 Articles <small>({{ pagination.getTotalItemCount }})</small>
+                <div class="pull-right">
+                    {{ form_start(filterForm, {'attr': {'class': 'form-inline', 'id':'filter-form'}}) }}
+                    {{ form_end(filterForm) }}
+                </div>
+                
             </h2>
         </div>
         
@@ -34,4 +39,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ webpack_asset('@js/Post/posts.js') }}"></script>
 {% endblock %}

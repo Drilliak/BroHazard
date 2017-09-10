@@ -27,6 +27,10 @@
         </div>
         <div class="col-sm-6 col-sm-offset-3">
             <ul class="list-group">
+                <li class="list-group-item text-center">
+                    {% set imgPath = "/img/ProfilePictures/" ~ user.profilePictureFile %}
+                    <img src="{{ asset(imgPath) | imagine_filter('thumb_350') }}" alt="">
+                </li>
                 <li class="list-group-item text-right"><span class="pull-left"><strong
                                 class="">Nom d'utilisateur</strong></span> {{ user.username }}</li>
                 <li class="list-group-item text-right"><span class="pull-left"><strong

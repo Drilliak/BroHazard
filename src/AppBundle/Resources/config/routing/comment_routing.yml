@@ -3,3 +3,10 @@ delete_comment:
     defaults:
         _controller: AppBundle:Comment:delete
     methods: [POST]
+
+edit_comment:
+    path: /edit
+    defaults:
+        _controller: AppBundle:Comment:edit
+    methods: [POST]
+

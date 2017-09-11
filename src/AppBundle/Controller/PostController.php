@@ -9,6 +9,7 @@ use AppBundle\Entity\Vote;
 use AppBundle\Event\NewPostEvent;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\DeleteCommentType;
+use AppBundle\Form\EditCommentType;
 use AppBundle\Form\PostType;
 use AppBundle\Form\VoteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -95,25 +96,38 @@ class PostController extends Controller
 
         $voteRepository->updateCount('post', $post->getId());
 
-        $deleteCommentForm = $this->get('form.factory')->create(DeleteCommentType::class, null, [
-            'path' => $this->generateUrl('delete_comment', ['id' => 2])
-        ]);
+        $deleteCommentForms = [];
+        $editCommentForms = [];
+        /** @var Comment $comment */
+        foreach ($post->getComments() as $comment) {
+            $commentId = $comment->getId();
+            $deleteCommentForms[$commentId] = $this->get('form.factory')->create(DeleteCommentType::class, null, [
+                'path' => $this->generateUrl('delete_comment', ['id' => $commentId])
+            ])
+                ->createView();
+            $editCommentForms[$commentId] = $this->get('form.factory')->create(EditCommentType::class, null, [
+                'path' => $this->generateUrl('edit_comment', ['id' => $commentId])
+            ])
+                ->createView();
+        }
+
 
         return $this->render('AppBundle:Post:post.html.twig', [
-            'post'         => $post,
-            'comment_form' => $form->createView(),
-            'hasRight'     => $hasRight,
-            'likeForm'     => $likeForm,
-            'dislikeForm'  => $dislikeForm,
-            'class'        => $class,
-            'width'        => $width,
-            'test'         => $deleteCommentForm->createView()
+            'post'                 => $post,
+            'comment_form'         => $form->createView(),
+            'hasRight'             => $hasRight,
+            'likeForm'             => $likeForm,
+            'dislikeForm'          => $dislikeForm,
+            'class'                => $class,
+            'width'                => $width,
+            'delete_comment_forms' => $deleteCommentForms,
+            'edit_comment_forms'   => $editCommentForms
         ]);
     }
 
     /**
      * @param string $type
-     * @param Post   $post
+     * @param Post $post
      *
      * @return \Symfony\Component\Form\FormView
      * @throws \Exception
@@ -299,7 +313,7 @@ class PostController extends Controller
      * Permet de modifier un post (s'il s'agit de l'auteur ou d'un administrateur).
      *
      * @param Request $request
-     * @param int     $idPost
+     * @param int $idPost
      *
      * @return Response
      */

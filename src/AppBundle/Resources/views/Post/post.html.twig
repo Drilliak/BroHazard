@@ -8,9 +8,6 @@
     {% webpack css "@css/Post/vote-bar.scss" %}
     <link rel="stylesheet" href="{{ asset_url }}">
     {% end_webpack %}
-    {% webpack css "@css/Post/post.scss" %}
-    <link rel="stylesheet" href="{{ asset_url }}">
-    {% end_webpack %}
 {% endblock %}
 
 {# Rédéfinition ddes boutons de formulaire dans cette page
@@ -45,17 +42,17 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">Confirmation de la suppression</h4>
                 </div>
-                
+
                 <div class="modal-body">
                     <p>Vous allez supprimez l'article, cette action sera irréversible.</p>
                     <p>Voulez-vous continuer ?</p>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
                     <a class="btn btn-danger btn-ok">Supprimer</a>
@@ -63,7 +60,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -91,8 +88,8 @@
                     </small>
                 </p>
                 {{ post.content|purify }}
-                
-                
+
+
                 <div class="row">
                     <div id="vote" class="vote {{ class }}">
                         <div class="vote-bar">
@@ -106,7 +103,7 @@
                                     'idSpan': 'like-count'
                                 }) }}
                                 {{ form_end(likeForm) }}
-                                
+
                                 {{ form_start(dislikeForm) }}
                                 {{ form_widget(dislikeForm.submit, {
                                     'icon': 'glyphicon-thumbs-down',
@@ -121,34 +118,43 @@
                                 <button disabled class="vote-btn"><i
                                             class="glyphicon glyphicon-thumbs-down"></i> {{ post.getDislike() }}
                                 </button>
-                            
+
                             </div>
                         {% endif %}
-                    
+
                     </div>
                 </div>
-                
-                <h3>Commentaire{% if post.comments|length > 1 %}s{% endif %} - {{ post.comments|length }} </h3>
-                
+
+                <h3>Commentaire<span id="plurial">{% if post.comments|length > 1 %}s{% endif %}</span> - <span id="count">{{ post.comments|length }}</span></h3>
+
                 {{ form(comment_form) }}
                 <div id="comments">
                     {% for comment in post.comments %}
-                        <div class="row">
-                            <div class="col-xs-2">
-                                {% set picturePath = 'img/ProfilePictures/' ~ comment.user.profilePictureFile %}
-                                <img src="{{ asset(picturePath) | imagine_filter('thumb_165') }}" width="100%">
-                            </div>
-                            <div class="col-xs-10">
-                                <strong>{{ comment.user.username }}</strong>
-                                {% if app.user.username == comment.user.username or is_granted('ROLE_ADMIN') %}
-                                <div class="pull-right" id="buttons-comment">
-                                    <button class="glyphicon glyphicon-edit button-comment btn btn-default"></button>
-                                    <button class="glyphicon glyphicon-remove button-comment btn btn-default"></button>
+                        <div class="comment">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    {% set picturePath = 'img/ProfilePictures/' ~ comment.user.profilePictureFile %}
+                                    <img src="{{ asset(picturePath) | imagine_filter('thumb_165') }}" width="100%">
                                 </div>
-                                {% endif %}
-                                <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
-                                
-                                <p>{{ comment.content }}</p>
+                                <div class="col-xs-10">
+                                    <strong>{{ comment.user.username }}</strong>
+                                    {% if app.user.username == comment.user.username or is_granted('ROLE_ADMIN') %}
+                                        <div class="pull-right" id="buttons-comment">
+                                            {{ form_start(delete_comment_forms[comment.id], {'attr': {'class': 'delete-comment'}}) }}
+                                            <button type="submit"
+                                                    class="glyphicon glyphicon-remove btn-delete-comment btn btn-default"></button>
+                                            {{ form_end(delete_comment_forms[comment.id]) }}
+                                            {{ form_start(edit_comment_forms[comment.id]) }}
+                                            <button class="glyphicon glyphicon-edit btn-comment-edit btn btn-default"></button>
+                                            {{ form_end(edit_comment_forms[comment.id]) }}
+
+
+                                        </div>
+                                    {% endif %}
+                                    <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
+
+                                    <p>{{ comment.content }}</p>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
@@ -160,15 +166,15 @@
 
 {% block javascripts %}
     {{ parent() }}
-    
+
     {% webpack js "@js/Post/post.js" %}
     <script src="{{ asset_url }}"></script>
     {% end_webpack %}
-    
+
     {% webpack js "@js/Post/vote-bar.js" %}
     <script src="{{ asset_url }}"></script>
     {% end_webpack %}
-    
+
     <script>
         $('#confirm-delete').on('show.bs.modal', function (e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));

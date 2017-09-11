@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     let $vote = $('#vote');
 
@@ -45,6 +43,32 @@ $(document).ready(function () {
         let action = form.attr('action');
 
         vote(action, -1);
+    });
+
+    let $comments = $('#comments');
+
+    $('.btn-delete-comment', $comments).click(function (e) {
+        e.preventDefault();
+        let form = $(this).closest('form');
+        let action = form.attr('action');
+
+        $.post(action)
+            .done(function (data, textStatus, jqXHR) {
+                form.closest('.comment').remove();
+                console.log(data);
+                let $count = $('#count');
+                $count.text(parseInt($count.text() - 1));
+                let $plurial = $('#plurial');
+                if (parseInt($count.text()) < 2){
+                    $plurial.text('');
+                } else {
+                    $plurial.text('s');
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            });
+
     });
 
 

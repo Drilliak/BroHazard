@@ -63,23 +63,23 @@
 /******/ 	__webpack_require__.p = "/compiled/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 5:
-/***/ (function(module, exports) {
-
-eval("// removed by extract-text-webpack-plugin\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/css/base.css\n// module id = 5\n// module chunks = 5\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/css/base.css?");
-
-/***/ }),
-
-/***/ 8:
+/***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_base_css__ = __webpack_require__(5);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_base_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_base_css__);\n\n\nsetTimeout(function () {\n    $('.alert').slideUp(500, function () {\n        $(this).remove();\n    });\n}, 5000);\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/js/base.js\n// module id = 8\n// module chunks = 5\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/js/base.js?");
+eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_base_css__ = __webpack_require__(6);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_base_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_base_css__);\n\n\nsetTimeout(function () {\n    $('.alert').slideUp(500, function () {\n        $(this).remove();\n    });\n}, 5000);\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/js/base.js\n// module id = 10\n// module chunks = 6\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/js/base.js?");
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/css/base.css\n// module id = 6\n// module chunks = 6\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/css/base.css?");
 
 /***/ })
 

@@ -63,23 +63,23 @@
 /******/ 	__webpack_require__.p = "/compiled/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css__ = __webpack_require__(4);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css__);\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/js/bootstrap.js\n// module id = 10\n// module chunks = 3\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/js/bootstrap.js?");
+eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css__ = __webpack_require__(4);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_bootstrap_dist_css_bootstrap_css__);\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/AppBundle/Resources/assets/js/bootstrap.js\n// module id = 12\n// module chunks = 4\n\n//# sourceURL=webpack:///./src/AppBundle/Resources/assets/js/bootstrap.js?");
 
 /***/ }),
 
 /***/ 4:
 /***/ (function(module, exports) {
 
-eval("// removed by extract-text-webpack-plugin\n\n//////////////////\n// WEBPACK FOOTER\n// ./~/bootstrap/dist/css/bootstrap.css\n// module id = 4\n// module chunks = 3\n\n//# sourceURL=webpack:///./~/bootstrap/dist/css/bootstrap.css?");
+eval("// removed by extract-text-webpack-plugin\n\n//////////////////\n// WEBPACK FOOTER\n// ./~/bootstrap/dist/css/bootstrap.css\n// module id = 4\n// module chunks = 4\n\n//# sourceURL=webpack:///./~/bootstrap/dist/css/bootstrap.css?");
 
 /***/ })
 

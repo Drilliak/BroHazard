@@ -8,6 +8,9 @@
     {% webpack css "@css/Post/vote-bar.scss" %}
     <link rel="stylesheet" href="{{ asset_url }}">
     {% end_webpack %}
+    {% webpack css "@css/Post/post.scss" %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
 {% endblock %}
 
 {# Rédéfinition ddes boutons de formulaire dans cette page
@@ -125,7 +128,8 @@
                     </div>
                 </div>
 
-                <h3>Commentaire<span id="plurial">{% if post.comments|length > 1 %}s{% endif %}</span> - <span id="count">{{ post.comments|length }}</span></h3>
+                <h3>Commentaire<span id="plurial">{% if post.comments|length > 1 %}s{% endif %}</span> - <span
+                            id="count">{{ post.comments|length }}</span></h3>
 
                 {{ form(comment_form) }}
                 <div id="comments">
@@ -136,24 +140,29 @@
                                     {% set picturePath = 'img/ProfilePictures/' ~ comment.user.profilePictureFile %}
                                     <img src="{{ asset(picturePath) | imagine_filter('thumb_165') }}" width="100%">
                                 </div>
-                                <div class="col-xs-10">
+                                <div class="col-xs-10 comment-body" id="comment-{{ comment.id }}">
                                     <strong>{{ comment.user.username }}</strong>
-                                    {% if app.user.username == comment.user.username or is_granted('ROLE_ADMIN') %}
-                                        <div class="pull-right" id="buttons-comment">
-                                            {{ form_start(delete_comment_forms[comment.id], {'attr': {'class': 'delete-comment'}}) }}
-                                            <button type="submit"
-                                                    class="glyphicon glyphicon-remove btn-delete-comment btn btn-default"></button>
-                                            {{ form_end(delete_comment_forms[comment.id]) }}
-                                            {{ form_start(edit_comment_forms[comment.id]) }}
-                                            <button class="glyphicon glyphicon-edit btn-comment-edit btn btn-default"></button>
-                                            {{ form_end(edit_comment_forms[comment.id]) }}
-
-
-                                        </div>
+                                    {% if app.user %}
+                                        {% if app.user.username == comment.user.username or is_granted('ROLE_ADMIN') %}
+                                            <div class="pull-right" id="buttons-comment">
+                                                {{ form_start(delete_comment_forms[comment.id], {'attr': {'class': 'delete-comment'}}) }}
+                                                <button type="submit"
+                                                        class="glyphicon glyphicon-remove btn-delete-comment btn btn-default"
+                                                        title="Supprimer le commentaire"></button>
+                                                {{ form_end(delete_comment_forms[comment.id]) }}
+                                                {{ form_start(edit_comment_forms[comment.id], {'attr': {'class': 'edit-comment'}}) }}
+                                                <button class="glyphicon glyphicon-edit btn-comment-edit btn btn-default"
+                                                        title="Modifier le commentaire"></button>
+                                                {{ form_end(edit_comment_forms[comment.id]) }}
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
                                     <time class="timeago" datetime="{{ comment.creationDate|date('c') }}"></time>
 
-                                    <p>{{ comment.content }}</p>
+                                    <p class="comment-content">
+                                        {{- comment.content -}}
+                                    </p>
+
                                 </div>
                             </div>
                         </div>
@@ -174,6 +183,9 @@
     {% webpack js "@js/Post/vote-bar.js" %}
     <script src="{{ asset_url }}"></script>
     {% end_webpack %}
+
+    <script src="{{ asset('date/jquery.timeago.js')}}"></script>
+    <script src="{{ asset('date/format_date_ago.js') }}"></script>
 
     <script>
         $('#confirm-delete').on('show.bs.modal', function (e) {

@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -40,6 +41,24 @@ class CommentController extends Controller
 
     public function editAction(Request $request)
     {
+        $id = $request->get('id');
+        $text = $request->get('text');
+        $em = $this->getDoctrine()->getManager();
+        /** @var Comment $comment */
+        $comment = $em->getRepository('AppBundle:Comment')->findOneBy(['id' => $id]);
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($comment->getUser() !== $user) {
+            if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                throw new AccessDeniedException('Not allowed');
+            }
+        }
+
+        $comment->setContent($text);
+        $em->flush();
+
+        return $this->json("The comment $id has been changed");
 
     }
 
